@@ -51,6 +51,17 @@ export default [
     ]
   },
   {
+    path: '/',
+    name: 'home',
+    component: Main,
+    redirect: '/home',
+    meta: {
+      title: '首页',
+      // href: 'https://lison16.github.io/iview-admin-doc/#/',
+      icon: 'ios-book'
+    }
+  },
+  {
     path: '',
     name: 'doc',
     meta: {
