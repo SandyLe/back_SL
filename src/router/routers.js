@@ -393,6 +393,15 @@ export default [
     component: Main,
     children: [
       {
+        path: 'brand',
+        name: 'brand',
+        meta: {
+          icon: 'md-funnel',
+          title: '品牌管理'
+        },
+        component: () => import('@/view/brand/brand.vue')
+      },
+      {
         path: 'level_2_1',
         name: 'level_2_1',
         meta: {
