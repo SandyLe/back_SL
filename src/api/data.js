@@ -2,7 +2,7 @@ import axios from '@/libs/api.request'
 
 export const getTableData = () => {
   return axios.request({
-    url: 'get_table_data',
+    url: 'http://www.noohle.com/api/cloud/fc/basic/platformMaterial/getPage',
     method: 'get'
   })
 }
@@ -46,6 +46,16 @@ export const getOrgData = () => {
 export const getTreeSelectData = () => {
   return axios.request({
     url: 'get_tree_select_data',
+    method: 'get'
+  })
+}
+
+export const getOneData = id => {
+  return axios.request({
+    url: 'http://www.noohle.com/api/cloud/fc/basic/platformMaterial/getOne',
+    params: {
+      id: id
+    },
     method: 'get'
   })
 }

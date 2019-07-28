@@ -1,11 +1,14 @@
 <template>
   <div>
     <div v-if="searchable && searchPlace === 'top'" class="search-con search-con-top">
-      <Select v-model="searchKey" class="search-col">
-        <Option v-for="item in columns" v-if="item.key !== 'handle'" :value="item.key" :key="`search-col-${item.key}`">{{ item.title }}</Option>
-      </Select>
-      <Input @on-change="handleClear" clearable placeholder="输入关键字搜索" class="search-input" v-model="searchValue"/>
-      <Button @click="handleSearch" class="search-btn" type="primary"><Icon type="search"/>&nbsp;&nbsp;搜索</Button>
+      <button class="ivu-btn ivu-btn-primary" @click="showModal">新增</button>
+      <div style="float: right">
+        <Select v-model="searchKey" class="search-col">
+          <Option v-for="item in columns" v-if="item.key !== 'handle'" :value="item.key" :key="`search-col-${item.key}`">{{ item.title }}</Option>
+        </Select>
+        <Input @on-change="handleClear" clearable placeholder="输入关键字搜索" class="search-input" v-model="searchValue"/>
+        <Button @click="handleSearch" class="search-btn" type="primary"><Icon type="search"/>&nbsp;&nbsp;搜索</Button>
+      </div>
     </div>
     <Table
       ref="tablesMain"
@@ -38,6 +41,7 @@
       <slot name="footer" slot="footer"></slot>
       <slot name="loading" slot="loading"></slot>
     </Table>
+    <Page :total="dataCount" :page-size="pageSize" show-total class="paging" @on-change="changepage"></Page>
     <div v-if="searchable && searchPlace === 'bottom'" class="search-con search-con-top">
       <Select v-model="searchKey" class="search-col">
         <Option v-for="item in columns" v-if="item.key !== 'handle'" :value="item.key" :key="`search-col-${item.key}`">{{ item.title }}</Option>
@@ -46,6 +50,23 @@
       <Button class="search-btn" type="primary"><Icon type="search"/>&nbsp;&nbsp;搜索</Button>
     </div>
     <a id="hrefToExportTable" style="display: none;width: 0px;height: 0px;"></a>
+
+    <Modal v-draggable="options" title="新增" v-model="modalVisible">
+      <Form>
+        <FormItem>
+          <label for="name" class="ivu-form-label-left lableFormField">名称：</label>
+          <input type="text" class="ivu-input inputFormField" name="name" id="name"/>
+        </FormItem>
+        <FormItem>
+          <label for="desc" class="ivu-form-label-left lableFormField">描述：</label>
+          <textarea rows="3" cols="20" type="text" class="ivu-input textFormField" name="desc" id="desc"/>
+        </FormItem>
+        <FormItem>
+          <label for="pic" class="ivu-form-label-left lableFormField">主图：</label>
+          <input type="file" class="inputFormField" name="pic" id="pic"/>
+        </FormItem>
+      </Form>
+    </Modal>
   </div>
 </template>
 
@@ -143,12 +164,18 @@ export default {
    */
   data () {
     return {
+      modalVisible: false,
       insideColumns: [],
       insideTableData: [],
       edittingCellId: '',
       edittingText: '',
       searchValue: '',
-      searchKey: ''
+      searchKey: '',
+      options: {
+        trigger: '.ivu-modal-body',
+        body: '.ivu-modal',
+        recover: true
+      }
     }
   },
   methods: {
@@ -256,6 +283,9 @@ export default {
     },
     onExpand (row, status) {
       this.$emit('on-expand', row, status)
+    },
+    showModal () {
+      this.modalVisible = true
     }
   },
   watch: {
@@ -275,3 +305,18 @@ export default {
   }
 }
 </script>
+<style>
+  .lableFormField{
+    width: 80px;
+    float: left;
+    text-align: right;
+  }
+  .inputFormField{
+    width: 200px;
+    float: left;
+  }
+  .textFormField{
+    width: 300px;
+    float: left;
+  }
+</style>

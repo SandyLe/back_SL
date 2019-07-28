@@ -6,11 +6,12 @@ const Random = Mock.Random
 
 export const getTableData = req => {
   let tableData = []
-  doCustomTimes(5, () => {
+  doCustomTimes(7, () => {
     tableData.push(Mock.mock({
       name: '@name',
       email: '@email',
-      createTime: '@date'
+      createTime: '@date',
+      createTime1: '@date'
     }))
   })
   return tableData
