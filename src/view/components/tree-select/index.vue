@@ -41,10 +41,11 @@ export default {
   methods: {
     changeTreeSelectData () {
       this.treeSelected = [111, 114]
+      this.treeData = newTreeData
     },
     changeTreeData () {
-      this.treeData = newTreeData
-      // this.treeSelected = [];
+      alert(2)
+      console.log(this.treeSelected)
     },
     handleTreeSelectChange (list) {
       // console.log('=-========', list);

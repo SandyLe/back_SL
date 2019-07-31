@@ -29,6 +29,18 @@ export const saveErrorLogger = info => {
   })
 }
 
+export const saveData = data => {
+  return axios.request({
+    url: 'http://localhost:8082/demo/test/goal/save',
+    data: JSON.stringify(data),
+    method: 'post',
+    headers: {
+      'Content-Type': 'application/json;charset=UTF-8',
+      'token': ''
+    }
+  })
+}
+
 export const uploadImg = formData => {
   return axios.request({
     url: 'image/upload',
