@@ -32,5 +32,22 @@ export default {
       showInHeader: true, // 设为false后不会在顶部显示错误日志徽标
       developmentOff: true // 设为true后在开发环境不会收集错误信息，方便开发中排查错误
     }
+  },
+  // 跨域代理配置
+  chainWebpack: config => {
+    config.resolve.alias
+      .set('@', resolve('src'))
+      .set('_c', resolve('src/components'))
+      .set('_conf', resolve('config'))
+  },
+  productionSourceMap: false,
+  // 添加如下配置
+  devServer: {
+    proxy: {
+      '/api': {
+        target: 'http://127.0.0.1:7001/',
+        changeOrigin: true
+      }
+    }
   }
 }
