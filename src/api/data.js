@@ -31,7 +31,7 @@ export const saveErrorLogger = info => {
 
 export const saveData = data => {
   return axios.request({
-    url: 'http://localhost:8082/demo/api/test/goal/save',
+    url: 'http://admin-api/demo/api/test/goal/save',
     data: JSON.stringify(data),
     method: 'post',
     headers: {

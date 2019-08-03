@@ -1,15 +1,28 @@
 import axios from '@/libs/api.request'
+import crypto from 'crypto'
 
 export const login = ({ userName, password }) => {
+  let pass = getMD5(password + 'b492f97ca837625b3d2ad39fdd5518ed')
+  console.log(pass)
   const data = {
-    userName,
-    password
+    'userName': userName,
+    'password': pass
   }
   return axios.request({
-    url: 'login',
-    data,
-    method: 'post'
+    url: 'http://localhost:8082/demo/api/login',
+    method: 'post',
+    data: data,
+    headers: {
+      'Content-Type': 'application/json;charset=UTF-8',
+      'token': ''
+    }
   })
+}
+
+export const getMD5 = (pass) => {
+  let md5 = crypto.createHash('md5')
+  md5.update(pass)
+  return md5.digest('hex')
 }
 
 export const getUserInfo = (token) => {

@@ -42,12 +42,34 @@ export default {
   },
   productionSourceMap: false,
   // 添加如下配置
-  devServer: {
-    proxy: {
-      '/api': {
-        target: 'http://127.0.0.1:8082/',
-        changeOrigin: true
+  dev: {
+    assetsSubDirectory: 'static',
+    assetsPublicPath: '/',
+    proxyTable: {
+      '/admin-api': {// 前端路由匹配模式
+        target: 'http://localhost:8082', // 后端请求服务域名和端口
+        changeOrigin: true, // 设置请求头
+        pathRewrite: {
+          '^/admin-api': '/' // 路径重写  前端/flask-api 对应 后端/
+        }
       }
-    }
+    },
+    // Various Dev Server settings
+    host: 'localhost', // can be overwritten by process.env.HOST
+    port: 8081, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
+    autoOpenBrowser: true, // 运行npm run dev 打开浏览器
+    errorOverlay: true,
+    notifyOnErrors: true,
+    poll: false, // https://webpack.js.org/configuration/dev-server/#devserver-watchoptions-
+    /**
+     * Source Maps
+     */
+    // https://webpack.js.org/configuration/devtool/#development
+    devtool: 'cheap-module-eval-source-map',
+    // If you have problems debugging vue-files in devtools,
+    // set this to false - it *may* help
+    // https://vue-loader.vuejs.org/en/options.html#cachebusting
+    cacheBusting: true,
+    cssSourceMap: true
   }
 }
