@@ -5,11 +5,11 @@ export const login = ({ userName, password }) => {
   let pass = getMD5(password + 'b492f97ca837625b3d2ad39fdd5518ed')
   console.log(pass)
   const data = {
-    'userName': userName,
+    'username': userName,
     'password': pass
   }
   return axios.request({
-    url: 'http://localhost:8082/demo/api/login',
+    url: 'http://localhost:8081/demo/api/login',
     method: 'post',
     data: data,
     headers: {

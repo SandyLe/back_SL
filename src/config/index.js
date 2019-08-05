@@ -17,7 +17,7 @@ export default {
    * @description api请求基础路径
    */
   baseUrl: {
-    dev: 'https://www.easy-mock.com/mock/5add9213ce4d0e69998a6f51/iview-admin/',
+    dev: 'https://localhost:8082/',
     pro: 'https://produce.com'
   },
   /**
@@ -50,7 +50,7 @@ export default {
         target: 'http://localhost:8082', // 后端请求服务域名和端口
         changeOrigin: true, // 设置请求头
         pathRewrite: {
-          '^/admin-api': '/' // 路径重写  前端/flask-api 对应 后端/
+          '^/admin-api': '' // 路径重写  前端/flask-api 对应 后端/
         }
       }
     },
