@@ -29,9 +29,9 @@ export const saveErrorLogger = info => {
   })
 }
 
-export const saveData = data => {
+export const saveData = (identity, data) => {
   return axios.request({
-    url: 'http://localhost:8081/demo/api/test/goal/save',
+    url: identity + '/save',
     data: JSON.stringify(data),
     method: 'post',
     headers: {

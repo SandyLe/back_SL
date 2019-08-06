@@ -8,7 +8,7 @@ export const login = ({ userName, password }) => {
     'password': pass
   }
   return axios.request({
-    url: 'http://localhost:8081/demo/api/login',
+    url: '/login',
     method: 'post',
     data: data,
     headers: {

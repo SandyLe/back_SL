@@ -291,7 +291,7 @@ export default {
     },
     ok () {
       alert(JSON.stringify(this.form_obj))
-      saveData(this.form_obj).then((res) => {
+      saveData('goal', this.form_obj).then((res) => {
         alert(JSON.stringify(res))
       })
     },
