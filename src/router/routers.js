@@ -453,6 +453,35 @@ export default [
     ]
   },
   {
+    path: '/components',
+    name: 'user_page',
+    meta: {
+      icon: 'ios-people',
+      title: '用户管理'
+    },
+    component: Main,
+    children: [
+      {
+        path: 'roles_page',
+        name: 'roles_page',
+        meta: {
+          icon: 'ios-man',
+          title: '角色管理'
+        },
+        component: () => import('@/view/role/roles.vue')
+      },
+      {
+        path: 'users_page',
+        name: 'users_page',
+        meta: {
+          icon: 'md-clipboard',
+          title: '用户管理'
+        },
+        component: () => import('@/view/user/users.vue')
+      }
+    ]
+  },
+  {
     path: '/argu',
     name: 'argu',
     meta: {

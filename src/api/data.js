@@ -6,6 +6,12 @@ export const getTableData = () => {
     method: 'get'
   })
 }
+export const getPageData = identity => {
+  return axios.request({
+    url: identity + '/getPage',
+    method: 'get'
+  })
+}
 
 export const getDragList = () => {
   return axios.request({
