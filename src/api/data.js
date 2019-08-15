@@ -68,12 +68,22 @@ export const getTreeSelectData = () => {
   })
 }
 
-export const getOneData = id => {
+export const getOneData = (identity, id) => {
   return axios.request({
-    url: 'http://www.noohle.com/api/cloud/fc/basic/platformMaterial/getOne',
+    url: identity + '/getOne',
     params: {
       id: id
     },
     method: 'get'
+  })
+}
+
+export const deleteData = (identity, id) => {
+  return axios.request({
+    url: identity + '/delete',
+    params: {
+      id: id
+    },
+    method: 'post'
   })
 }

@@ -1,10 +1,27 @@
 <template>
   <div>
     <Card>
-      <tables ref="tables" editable searchable search-place="top" v-model="tableData" :columns="columns" @on-delete="handleDelete"/>
+      <tables ref="tables" editable searchable search-place="top" v-model="tableData" :columns="columns" @on-delete="handleDelete" v-on:listenToChildEvent="showModalAdd"/>
       <Button style="margin: 10px 0;" type="primary" @click="exportExcel">导出为Csv文件</Button>
+      <div>ss{{addModalVisible}}</div>
     </Card>
-    <Modal v-draggable="options" title="编辑" v-model="modalVisible">
+    <Modal v-draggable="options" title="新增" v-model="addModalVisible" @on-ok="addData" @on-cancel="cancel">
+      <Form ref="saveForm" :model="form_obj">
+        <FormItem>
+          <label for="name" class="ivu-form-label-left lableFormField">名称：</label>
+          <input type="text" class="ivu-input inputFormField" name="form_obj.name" v-model="form_obj.name" id="name"/>
+        </FormItem>
+        <FormItem>
+          <label for="desc" class="ivu-form-label-left lableFormField">描述：</label>
+          <textarea rows="3" cols="20" type="text" class="ivu-input textFormField" v-model="form_obj.desc" id="desc"/>
+        </FormItem>
+        <FormItem>
+          <label for="pic" class="ivu-form-label-left lableFormField">主图：</label>
+          <input type="file" class="inputFormField" id="pic"/>
+        </FormItem>
+      </Form>
+    </Modal>
+    <Modal v-draggable="options" title="编辑" v-model="modalVisible" >
       <Form>
         <FormItem>
           <label for="name" class="ivu-form-label-left lableFormField">名称：</label>
@@ -25,7 +42,7 @@
 
 <script>
 import Tables from '_c/tables'
-import { getPageData, getOneData } from '@/api/data'
+import { getPageData, getOneData, deleteData } from '@/api/data'
 export default {
   name: 'users_page',
   components: {
@@ -35,6 +52,7 @@ export default {
     return {
       form_obj: {
       },
+      addModalVisible: false,
       modalVisible: false,
       columns: [
         { title: 'Name', key: 'name', sortable: true },
@@ -51,7 +69,7 @@ export default {
                 on: {
                   'click': () => {
                     this.modalVisible = true
-                    getOneData(params.row.id).then(res => {
+                    getOneData('user', params.row.id).then(res => {
                       this.form_obj = res.data.data
                       console.log(res.data.data)
                     })
@@ -66,6 +84,8 @@ export default {
                 },
                 on: {
                   'on-ok': () => {
+                    deleteData('user', params.row.id).then(res => {
+                    })
                     vm.$emit('on-delete', params)
                     vm.$emit('input', params.tableData.filter((item, index) => index !== params.row.initRowIndex))
                   }
@@ -87,6 +107,16 @@ export default {
     exportExcel () {
       this.$refs.tables.exportCsv({
         filename: `table-${(new Date()).valueOf()}.csv`
+      })
+    },
+    showModalAdd (data) {
+      console.log(data)
+      this.addModalVisible = data
+    },
+    addData () {
+      alert(JSON.stringify(this.form_obj))
+      saveData('user', this.form_obj).then((res) => {
+        alert(JSON.stringify(res))
       })
     }
   },

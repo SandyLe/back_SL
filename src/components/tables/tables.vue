@@ -50,23 +50,6 @@
       <Button class="search-btn" type="primary"><Icon type="search"/>&nbsp;&nbsp;搜索</Button>
     </div>
     <a id="hrefToExportTable" style="display: none;width: 0px;height: 0px;"></a>
-
-    <Modal v-draggable="options" title="新增" v-model="modalVisible" @on-ok="ok" @on-cancel="cancel">
-      <Form ref="saveForm" :model="form_obj">
-        <FormItem>
-          <label for="name" class="ivu-form-label-left lableFormField">名称：</label>
-          <input type="text" class="ivu-input inputFormField" name="form_obj.name" v-model="form_obj.name" id="name"/>
-        </FormItem>
-        <FormItem>
-          <label for="desc" class="ivu-form-label-left lableFormField">描述：</label>
-          <textarea rows="3" cols="20" type="text" class="ivu-input textFormField" v-model="form_obj.desc" id="desc"/>
-        </FormItem>
-        <FormItem>
-          <label for="pic" class="ivu-form-label-left lableFormField">主图：</label>
-          <input type="file" class="inputFormField" id="pic"/>
-        </FormItem>
-      </Form>
-    </Modal>
   </div>
 </template>
 
@@ -167,6 +150,7 @@ export default {
     return {
       form_obj: {},
       modalVisible: false,
+      addModalVisible: false,
       insideColumns: [],
       insideTableData: [],
       edittingCellId: '',
@@ -287,7 +271,8 @@ export default {
       this.$emit('on-expand', row, status)
     },
     showModal () {
-      this.modalVisible = true
+      this.addModalVisible = true
+      this.$emit('listenToChildEvent', this.addModalVisible)
     },
     ok () {
       alert(JSON.stringify(this.form_obj))
