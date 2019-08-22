@@ -3,21 +3,24 @@
     <Card>
       <tables ref="tables" editable searchable search-place="top" v-model="tableData" :columns="columns" @on-delete="handleDelete" v-on:listenToChildEvent="showModalAdd"/>
       <Button style="margin: 10px 0;" type="primary" @click="exportExcel">导出为Csv文件</Button>
-      <div>ss{{addModalVisible}}</div>
     </Card>
-    <Modal v-draggable="options" title="新增" v-model="addModalVisible" @on-ok="addData" @on-cancel="cancel">
+    <Modal v-draggable="options" title="新增用户" v-model="addModalVisible" @on-ok="addData" @on-cancel="cancel">
       <Form ref="saveForm" :model="form_obj">
         <FormItem>
           <label for="name" class="ivu-form-label-left lableFormField">名称：</label>
           <input type="text" class="ivu-input inputFormField" name="form_obj.name" v-model="form_obj.name" id="name"/>
         </FormItem>
         <FormItem>
-          <label for="desc" class="ivu-form-label-left lableFormField">描述：</label>
-          <textarea rows="3" cols="20" type="text" class="ivu-input textFormField" v-model="form_obj.desc" id="desc"/>
+          <label for="name" class="ivu-form-label-left lableFormField">密码：</label>
+          <input type="password" class="ivu-input inputFormField" name="form_obj.password" v-model="form_obj.password"/>
         </FormItem>
         <FormItem>
-          <label for="pic" class="ivu-form-label-left lableFormField">主图：</label>
-          <input type="file" class="inputFormField" id="pic"/>
+          <label for="name" class="ivu-form-label-left lableFormField">确认密码：</label>
+          <input type="password" class="ivu-input inputFormField" name="form_obj.confirmPassword" v-model="form_obj.confirmPassword"/>
+        </FormItem>
+        <FormItem>
+          <label for="desc" class="ivu-form-label-left lableFormField">描述：</label>
+          <textarea rows="3" cols="20" type="text" class="ivu-input textFormField" v-model="form_obj.desc" id="desc"/>
         </FormItem>
       </Form>
     </Modal>
@@ -42,23 +45,37 @@
 
 <script>
 import Tables from '_c/tables'
-import { getPageData, getOneData, deleteData } from '@/api/data'
+import { getPageData, getOneData, deleteData, saveData } from '@/api/data'
+import { decode } from '@/api/user'
+import { formatTimeToStr } from '@/libs/util'
 export default {
   name: 'users_page',
   components: {
     Tables
   },
+  inject: ['reload'],
   data () {
     return {
       form_obj: {
       },
+      loading: true,
       addModalVisible: false,
       modalVisible: false,
       columns: [
-        { title: 'Name', key: 'name', sortable: true },
-        { title: 'Email', key: 'email', editable: true },
-        { title: 'Create-Time', key: 'createTime' },
-        { title: 'Create-Time1', key: 'createTime1' },
+        { title: '用户名', key: 'name', sortable: true },
+        { title: '备注', key: 'desc', editable: true },
+        { title: '创建时间',
+          key: 'createDate',
+          render: (h, params) => {
+            return h('div', formatTimeToStr(new Date(params.row.createDate), 'yyyy-MM-dd hh:mm'))
+          }
+        },
+        { title: '更新时间',
+          key: 'updateDate',
+          render: (h, params) => {
+            return h('div', formatTimeToStr(new Date(params.row.updateDate), 'yyyy-MM-dd hh:mm'))
+          }
+        },
         {
           title: 'Handle',
           key: 'handle',
@@ -114,9 +131,17 @@ export default {
       this.addModalVisible = data
     },
     addData () {
-      alert(JSON.stringify(this.form_obj))
-      saveData('user', this.form_obj).then((res) => {
+      var userObj = JSON.parse(JSON.stringify(this.form_obj))
+      if (userObj.password !== userObj.confirmPassword) {
+        alert('两次输入密码不一致！')
+        return
+      }
+      var password = decode(userObj.password)
+      userObj.password = password
+      console.log(this.loading)
+      saveData('user', userObj).then((res) => {
         alert(JSON.stringify(res))
+        this.reload()
       })
     }
   },
