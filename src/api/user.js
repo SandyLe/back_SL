@@ -106,10 +106,11 @@ export const restoreTrash = msg_id => {
  * @param data
  * @param secretKey
  * @returns {*}
-
-function aesDecrypt (encrypted, key) {
-  const decipher = crypto.createDecipher('aes-128-ecb', key)
+ */
+export const aesDecrypt = (encrypted) => {
+  // const decipher = crypto.createDecipher('aes-128-ecb', key)
+  const decipher = crypto.createDecipher('aes-128-ecb', 'Password!')
   var decrypted = decipher.update(encrypted, 'hex', 'utf8')
   decrypted += decipher.final('utf8')
   return decrypted
-} */
+}

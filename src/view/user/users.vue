@@ -28,15 +28,19 @@
       <Form>
         <FormItem>
           <label for="name" class="ivu-form-label-left lableFormField">名称：</label>
-          <input type="text" class="ivu-input inputFormField" name="name" id="name" :value="form_obj.name"/>
+          <input type="text" class="ivu-input inputFormField" name="form_obj.name" v-model="form_obj.name" id="name"/>
+        </FormItem>
+        <FormItem>
+          <label for="name" class="ivu-form-label-left lableFormField">密码：</label>
+          <input type="password" class="ivu-input inputFormField" name="form_obj.password" v-model="form_obj.password"/>
+        </FormItem>
+        <FormItem>
+          <label for="name" class="ivu-form-label-left lableFormField">确认密码：</label>
+          <input type="password" class="ivu-input inputFormField" name="form_obj.confirmPassword" v-model="form_obj.confirmPassword"/>
         </FormItem>
         <FormItem>
           <label for="desc" class="ivu-form-label-left lableFormField">描述：</label>
-          <textarea rows="3" cols="20" type="text" class="ivu-input textFormField" name="desc" id="desc"/>
-        </FormItem>
-        <FormItem>
-          <label for="pic" class="ivu-form-label-left lableFormField">主图：</label>
-          <input type="file" class="inputFormField" name="pic" id="pic"/>
+          <textarea rows="3" cols="20" type="text" class="ivu-input textFormField" v-model="form_obj.desc" id="desc"/>
         </FormItem>
       </Form>
     </Modal>
@@ -46,7 +50,7 @@
 <script>
 import Tables from '_c/tables'
 import { getPageData, getOneData, deleteData, saveData } from '@/api/data'
-import { decode } from '@/api/user'
+import { decode, aesDecrypt } from '@/api/user'
 import { formatTimeToStr } from '@/libs/util'
 export default {
   name: 'users_page',
@@ -88,6 +92,9 @@ export default {
                     this.modalVisible = true
                     getOneData('user', params.row.id).then(res => {
                       this.form_obj = res.data.data
+                      alert(this.form_obj.password)
+                      var passwordDecode = aesDecrypt(this.form_obj.password)
+                      alert(passwordDecode)
                       console.log(res.data.data)
                     })
                   }
