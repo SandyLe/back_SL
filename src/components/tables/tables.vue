@@ -41,7 +41,7 @@
       <slot name="footer" slot="footer"></slot>
       <slot name="loading" slot="loading"></slot>
     </Table>
-    <Page :total="dataCount" :page-size="pageSize" show-total class="paging" @on-change="changepage"></Page>
+    <Page :total="pageData.totalRecords" :page-size="pageData.pageSize" show-total class="paging" @on-change="changepage"></Page>
     <div v-if="searchable && searchPlace === 'bottom'" class="search-con search-con-top">
       <Select v-model="searchKey" class="search-col">
         <Option v-for="item in columns" v-if="item.key !== 'handle'" :value="item.key" :key="`search-col-${item.key}`">{{ item.title }}</Option>
@@ -60,6 +60,7 @@ import { saveData } from '@/api/data'
 import './index.less'
 export default {
   name: 'Tables',
+  inject: ['reload'],
   props: {
     value: {
       type: Array,
@@ -138,7 +139,8 @@ export default {
     searchPlace: {
       type: String,
       default: 'top'
-    }
+    },
+    pageData: {}
   },
   /**
    * Events
@@ -282,6 +284,10 @@ export default {
     },
     cancel () {
       alert('Cancle')
+    },
+    changepage (page) {
+      this.pageData.currentPage = page
+      this.$emit('updatePageDate', this.pageData)
     }
   },
   watch: {

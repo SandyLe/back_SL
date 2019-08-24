@@ -1,10 +1,12 @@
 <template>
   <div>
     <Card>
-      <tables ref="tables" editable searchable search-place="top" v-model="tableData" :columns="columns" @on-delete="handleDelete" v-on:listenToChildEvent="showModalAdd"/>
+      <tables ref="tables" editable searchable search-place="top" v-model="tableData" v-bind:pageData="pageData" :columns="columns"
+              @on-delete="handleDelete" v-on:listenToChildEvent="showModalAdd" v-on:updatePageDate="updatePageDate"/>
       <Button style="margin: 10px 0;" type="primary" @click="exportExcel">导出为Csv文件</Button>
     </Card>
-    <Modal v-draggable="options" title="新增用户" v-model="addModalVisible" @on-ok="addData" @on-cancel="cancel">
+    <Modal v-draggable="options" title="新增用户" v-model="addModalVisible" @on-ok="addData" @on-cancel="cancel"
+           :loading='loading'>
       <Form ref="saveForm" :model="form_obj">
         <FormItem>
           <label for="name" class="ivu-form-label-left lableFormField">名称：</label>
@@ -20,27 +22,19 @@
         </FormItem>
         <FormItem>
           <label for="desc" class="ivu-form-label-left lableFormField">描述：</label>
-          <textarea rows="3" cols="20" type="text" class="ivu-input textFormField" v-model="form_obj.desc" id="desc"/>
+          <textarea rows="3" cols="20" type="text" class="ivu-input textFormField" name="form_obj.description" v-model="form_obj.description" id="description"/>
         </FormItem>
       </Form>
     </Modal>
-    <Modal v-draggable="options" title="编辑" v-model="modalVisible" >
+    <Modal v-draggable="options" title="编辑" v-model="modalVisible"  @on-ok="addData" @on-cancel="cancel">
       <Form>
         <FormItem>
           <label for="name" class="ivu-form-label-left lableFormField">名称：</label>
           <input type="text" class="ivu-input inputFormField" name="form_obj.name" v-model="form_obj.name" id="name"/>
         </FormItem>
         <FormItem>
-          <label for="name" class="ivu-form-label-left lableFormField">密码：</label>
-          <input type="password" class="ivu-input inputFormField" name="form_obj.password" v-model="form_obj.password"/>
-        </FormItem>
-        <FormItem>
-          <label for="name" class="ivu-form-label-left lableFormField">确认密码：</label>
-          <input type="password" class="ivu-input inputFormField" name="form_obj.confirmPassword" v-model="form_obj.confirmPassword"/>
-        </FormItem>
-        <FormItem>
           <label for="desc" class="ivu-form-label-left lableFormField">描述：</label>
-          <textarea rows="3" cols="20" type="text" class="ivu-input textFormField" v-model="form_obj.desc" id="desc"/>
+          <textarea rows="3" cols="20" type="text" class="ivu-input textFormField" name="form_obj.description"  v-model="form_obj.description" id="desc"/>
         </FormItem>
       </Form>
     </Modal>
@@ -50,7 +44,7 @@
 <script>
 import Tables from '_c/tables'
 import { getPageData, getOneData, deleteData, saveData } from '@/api/data'
-import { decode, aesDecrypt } from '@/api/user'
+import { decode } from '@/api/user'
 import { formatTimeToStr } from '@/libs/util'
 export default {
   name: 'users_page',
@@ -60,6 +54,11 @@ export default {
   inject: ['reload'],
   data () {
     return {
+      pageData: {
+        identity: 'user',
+        pageSize: 10,
+        currentPage: 1
+      },
       form_obj: {
       },
       loading: true,
@@ -67,7 +66,7 @@ export default {
       modalVisible: false,
       columns: [
         { title: '用户名', key: 'name', sortable: true },
-        { title: '备注', key: 'desc', editable: true },
+        { title: '备注', key: 'description', editable: true },
         { title: '创建时间',
           key: 'createDate',
           render: (h, params) => {
@@ -92,10 +91,6 @@ export default {
                     this.modalVisible = true
                     getOneData('user', params.row.id).then(res => {
                       this.form_obj = res.data.data
-                      alert(this.form_obj.password)
-                      var passwordDecode = aesDecrypt(this.form_obj.password)
-                      alert(passwordDecode)
-                      console.log(res.data.data)
                     })
                   }
                 }
@@ -139,23 +134,39 @@ export default {
     },
     addData () {
       var userObj = JSON.parse(JSON.stringify(this.form_obj))
-      if (userObj.password !== userObj.confirmPassword) {
-        alert('两次输入密码不一致！')
-        return
+      if (!userObj.id) {
+        if (userObj.password !== userObj.confirmPassword) {
+          alert('两次输入密码不一致！')
+          this.loading = false
+          this.$nextTick(() => {
+            this.loading = true
+          })
+          return false
+        }
       }
+      console.log(userObj.password)
       var password = decode(userObj.password)
       userObj.password = password
-      console.log(this.loading)
+      console.log(userObj.password)
       saveData('user', userObj).then((res) => {
-        alert(JSON.stringify(res))
+        alert('操作成功')
         this.reload()
+      })
+    },
+    updatePageDate (pageData) {
+      this.pageData = pageData
+      getPageData(this.pageData).then(res => {
+        this.tableData = res.data.data.data
+        delete res.data.data.data
+        this.pageData = res.data.data
       })
     }
   },
   mounted () {
-    getPageData('user').then(res => {
+    getPageData(this.pageData).then(res => {
       this.tableData = res.data.data.data
-      console.log(this.tableData)
+      delete res.data.data.data
+      this.pageData = res.data.data
     })
   }
 }
