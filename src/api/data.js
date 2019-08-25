@@ -6,10 +6,11 @@ export const getTableData = () => {
     method: 'get'
   })
 }
-export const getPageData = identity => {
+export const getPageData = pageData => {
   return axios.request({
-    url: identity + '/getPage',
-    method: 'get'
+    url: pageData.identity + '/getPage',
+    method: 'get',
+    params: pageData
   })
 }
 
