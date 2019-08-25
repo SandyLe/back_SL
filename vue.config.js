@@ -41,10 +41,15 @@ module.exports = {
   //   proxy: 'localhost:3000'
   // }
   devServer: {
+    historyApiFallback: true,
+    hot: true,
+    inline: true,
+    stats: { color: true },
     proxy: {
       '/api': {
         target: 'http://127.0.0.1:8082/',
-        changeOrigin: true
+        changeOrigin: true,
+        secure: false
       }
     }
   }

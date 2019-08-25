@@ -393,15 +393,6 @@ export default [
     component: Main,
     children: [
       {
-        path: 'brand',
-        name: 'brand',
-        meta: {
-          icon: 'md-funnel',
-          title: '品牌管理'
-        },
-        component: () => import('@/view/brand/brand.vue')
-      },
-      {
         path: 'level_2_1',
         name: 'level_2_1',
         meta: {
@@ -449,6 +440,75 @@ export default [
           title: '二级-3'
         },
         component: () => import('@/view/multilevel/level-2-3.vue')
+      }
+    ]
+  },
+  {
+    path: '/components',
+    name: 'news_page',
+    meta: {
+      icon: 'md-planet',
+      title: '企业新闻'
+    },
+    component: Main,
+    children: [
+      {
+        path: 'roles_page',
+        name: 'roles_page',
+        meta: {
+          icon: 'ios-man',
+          title: '角色管理'
+        },
+        component: () => import('@/view/role/roles.vue')
+      },
+      {
+        path: 'users_page',
+        name: 'users_page',
+        meta: {
+          icon: 'md-clipboard',
+          title: '用户管理'
+        },
+        component: () => import('@/view/user/users.vue')
+      }
+    ]
+  },
+  {
+    path: '/components',
+    name: 'brand_page',
+    meta: {
+      icon: 'logo-buffer',
+      title: '产品品牌'
+    },
+    component: Main,
+    children: [
+      {
+        path: 'brands_page',
+        name: 'brands_page',
+        meta: {
+          icon: 'md-clipboard',
+          title: '品牌管理'
+        },
+        component: () => import('@/view/brand/brands.vue')
+      }
+    ]
+  },
+  {
+    path: '/components',
+    name: 'menu_page',
+    meta: {
+      icon: 'md-menu',
+      title: '系统菜单'
+    },
+    component: Main,
+    children: [
+      {
+        path: 'menus_page',
+        name: 'menus_page',
+        meta: {
+          icon: 'md-clipboard',
+          title: '菜单管理'
+        },
+        component: () => import('@/view/menu/menus.vue')
       }
     ]
   },

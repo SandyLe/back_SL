@@ -45,5 +45,8 @@ export default {
   tree_select_page: '树状下拉选择器',
   user_page: '用户管理',
   roles_page: '角色管理',
-  users_page: '用户管理'
+  users_page: '用户管理',
+  menu_page: '菜单管理',
+  brand_page: '品牌管理',
+  news_page: '企业新闻'
 }
