@@ -62,6 +62,7 @@ export default {
       form_obj: {
       },
       loading: true,
+      options: true,
       addModalVisible: false,
       modalVisible: false,
       columns: [
