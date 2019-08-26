@@ -82,7 +82,6 @@ export default {
         {
           title: 'Handle',
           key: 'handle',
-          // options: ['delete'],
           button: [
             (h, params, vm) => {
               return h('Button', {
@@ -160,7 +159,8 @@ export default {
         delete res.data.data.data
         this.pageData = res.data.data
       })
-    }
+    },
+    cancel () {}
   },
   mounted () {
     getPageData(this.pageData).then(res => {

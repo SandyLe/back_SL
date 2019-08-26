@@ -34,7 +34,7 @@ export default {
     on(document, 'mouseup', handleMouseup)
   },
   update: (el, binding, vnode) => {
-    if (!binding.value.recover) return
+    if (!binding.value || !binding.value.recover) return
     let bodyDom = document.querySelector(binding.value.body)
     bodyDom.style.transform = ''
   }

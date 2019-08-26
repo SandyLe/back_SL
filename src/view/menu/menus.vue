@@ -14,8 +14,8 @@
         <FormItem>
           <label for="name" class="ivu-form-label-left lableFormField">类型：</label>
           <RadioGroup v-model="form_obj.type">
-            <Radio label="跳转菜单" value="1"></Radio>
-            <Radio label="普通菜单" value="0"></Radio>
+            <Radio label="1">跳转菜单</Radio>
+            <Radio label="0">普通菜单</Radio>
           </RadioGroup>
         </FormItem>
         <FormItem>
@@ -47,8 +47,31 @@
           <input type="text" class="ivu-input inputFormField" name="form_obj.name" v-model="form_obj.name" id="name"/>
         </FormItem>
         <FormItem>
+          <label for="name" class="ivu-form-label-left lableFormField">类型：</label>
+          <RadioGroup v-model="form_obj.type">
+            <Radio label="1">跳转菜单</Radio>
+            <Radio label="0">普通菜单</Radio>
+          </RadioGroup>
+        </FormItem>
+        <FormItem>
+          <label for="name" class="ivu-form-label-left lableFormField">等级：</label>
+          <Select @on-change="getItemValue" v-model="form_obj.level" class="ivu-select selectLevel">
+            <Option :value="item.code" v-for="item in levelDataList" v-bind:key="item.id">{{item.name}}</Option>
+          </Select>
+        </FormItem>
+        <FormItem :class="parentVisible" >
+          <label for="name" class="ivu-form-label-left lableFormField">父菜单：</label>
+          <Select v-model="form_obj.parent" class="ivu-select selectLevel">
+            <Option :value="item.code" v-for="item in parentList" v-bind:key="item.id">{{item.name}}</Option>
+          </Select>
+        </FormItem>
+        <FormItem>
+          <label for="name" class="ivu-form-label-left lableFormField">URL：</label>
+          <input type="text" class="ivu-input inputFormField" name="form_obj.url" v-model="form_obj.url"/>
+        </FormItem>
+        <FormItem>
           <label for="desc" class="ivu-form-label-left lableFormField">描述：</label>
-          <textarea rows="3" cols="20" type="text" class="ivu-input textFormField" name="form_obj.description"  v-model="form_obj.description" id="desc"/>
+          <textarea rows="3" cols="20" type="text" class="ivu-input textFormField" name="form_obj.description" v-model="form_obj.description" id="description"/>
         </FormItem>
       </Form>
     </Modal>
@@ -58,6 +81,7 @@
 <script>
 import Tables from '_c/tables'
 import { getPageData, getOneData, deleteData, saveData } from '@/api/data'
+import { formatTimeToStr } from '@/libs/util'
 import { getMenuList } from '@/api/common'
 export default {
   name: 'menus_page',
@@ -72,6 +96,8 @@ export default {
         pageSize: 10,
         currentPage: 1
       },
+      loading: true,
+      options: true,
       form_obj: {
       },
       levelDataList: [{
@@ -89,7 +115,16 @@ export default {
       parentVisible: 'parentHidden',
       columns: [
         { title: '名称', key: 'name', sortable: true },
-        { title: '等级', key: 'level', sortable: true },
+        { title: '等级',
+          key: 'level',
+          render: (h, params) => {
+            if (params.row.level === '1') {
+              return h('div', '跳转菜单')
+            } else if (params.row.level === '0') {
+              return h('div', '普通菜单')
+            }
+          }
+        },
         { title: '父菜单', key: 'parentDto.name', sortable: true },
         { title: 'URL', key: 'url', sortable: true },
         { title: '备注', key: 'description', editable: true },
@@ -155,7 +190,6 @@ export default {
       })
     },
     showModalAdd (data) {
-      console.log(data)
       this.addModalVisible = data
     },
     addData () {
@@ -179,7 +213,8 @@ export default {
       getMenuList('1', '').then(res => {
         this.parentList = res.data.data
       })
-    }
+    },
+    cancel () {}
   },
   mounted () {
     getPageData(this.pageData).then(res => {

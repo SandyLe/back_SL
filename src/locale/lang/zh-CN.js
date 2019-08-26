@@ -46,7 +46,9 @@ export default {
   user_page: '用户管理',
   roles_page: '角色管理',
   users_page: '用户管理',
+  menus_page: '系统菜单',
   menu_page: '菜单管理',
+  brands_page: '企业品牌',
   brand_page: '品牌管理',
   news_page: '企业新闻'
 }
