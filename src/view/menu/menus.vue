@@ -9,7 +9,11 @@
       <Form ref="saveForm" :model="form_obj">
         <FormItem>
           <label for="name" class="ivu-form-label-left lableFormField">名称：</label>
-          <input type="text" class="ivu-input inputFormField" name="form_obj.name" v-model="form_obj.name" id="name"/>
+          <input type="text" class="ivu-input inputFormField" name="form_obj.name" v-model="form_obj.name"/>
+        </FormItem>
+        <FormItem>
+          <label for="name" class="ivu-form-label-left lableFormField">编码：</label>
+          <input type="text" class="ivu-input inputFormField" name="form_obj.code" v-model="form_obj.code"/>
         </FormItem>
         <FormItem>
           <label for="name" class="ivu-form-label-left lableFormField">类型：</label>
@@ -26,6 +30,9 @@
         </FormItem>
         <FormItem :class="parentVisible" >
           <label for="name" class="ivu-form-label-left lableFormField">父菜单：</label>
+          <Select class="ivu-select selectLevel" :style="{display: secondMenuShow}">
+            <Option :value="item.code" v-for="item in parentList" v-bind:key="item.id">{{item.name}}</Option>
+          </Select>
           <Select v-model="form_obj.parent" class="ivu-select selectLevel">
             <Option :value="item.code" v-for="item in parentList" v-bind:key="item.id">{{item.name}}</Option>
           </Select>
@@ -113,6 +120,7 @@ export default {
       addModalVisible: false,
       modalVisible: false,
       parentVisible: 'parentHidden',
+      secondMenuShow: 'none',
       columns: [
         { title: '名称', key: 'name', sortable: true },
         { title: '等级',
@@ -210,6 +218,14 @@ export default {
     },
     getItemValue (item) {
       this.parentVisible = 'parentShow'
+      if (item === '1') {
+        this.secondMenuShow = 'none'
+      }
+      if (item === '2') {
+        this.parentList = [{ 'code': 23, 'name': '323' }]
+        this.form_obj.parent = null
+        this.secondMenuShow = 'inline-block'
+      }
       getMenuList('1', '').then(res => {
         this.parentList = res.data.data
       })
