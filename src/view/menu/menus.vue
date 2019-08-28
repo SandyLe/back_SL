@@ -126,14 +126,19 @@ export default {
         { title: '等级',
           key: 'level',
           render: (h, params) => {
-            if (params.row.level === '1') {
+            if (params.row.type === 1) {
               return h('div', '跳转菜单')
-            } else if (params.row.level === '0') {
+            } else if (params.row.type === 0) {
               return h('div', '普通菜单')
             }
           }
         },
-        { title: '父菜单', key: 'parentDto.name', sortable: true },
+        { title: '父菜单',
+          key: 'parentDto.name',
+          return: (h, params) => {
+            return h('div', params.row.parentDto.name)
+          }
+        },
         { title: 'URL', key: 'url', sortable: true },
         { title: '备注', key: 'description', editable: true },
         { title: '创建时间',
