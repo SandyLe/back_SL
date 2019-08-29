@@ -50,5 +50,6 @@ export default {
   menu_page: '菜单管理',
   brands_page: '企业品牌',
   brand_page: '品牌管理',
-  news_page: '企业新闻'
+  news_page: '企业新闻',
+  pictures_page: '图片仓库'
 }
