@@ -218,11 +218,19 @@ export default {
       this.addModalVisible = data
     },
     addData () {
+      const page = this
       var userObj = JSON.parse(JSON.stringify(this.form_obj))
       console.log(userObj.password)
       saveData('menu', userObj).then((res) => {
         alert('操作成功')
         this.reload()
+      }).catch(function (error) {
+        alert(error.response.data.message)
+        page.loading = false
+        this.$nextTick(() => {
+          page.loading = true
+        })
+        return false
       })
     },
     updatePageDate (pageData) {
