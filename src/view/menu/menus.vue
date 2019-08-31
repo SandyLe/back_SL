@@ -30,8 +30,8 @@
         </FormItem>
         <FormItem :class="parentVisible" >
           <label for="name" class="ivu-form-label-left lableFormField">父菜单：</label>
-          <Select class="ivu-select selectLevel" :style="{display: secondMenuShow}">
-            <Option :value="item.code" v-for="item in parentList" v-bind:key="item.id">{{item.name}}</Option>
+          <Select class="ivu-select selectLevel" :style="{display: secondMenuShow}" @on-change="getChildren">
+            <Option :value="item.code" v-for="item in firstParentList" v-bind:key="item.id">{{item.name}}</Option>
           </Select>
           <Select v-model="form_obj.parent" class="ivu-select selectLevel">
             <Option :value="item.code" v-for="item in parentList" v-bind:key="item.id">{{item.name}}</Option>
@@ -115,8 +115,13 @@ export default {
         id: 2,
         code: '2',
         name: '二'
+      }, {
+        id: 3,
+        code: '3',
+        name: '三'
       }],
       parentList: [{}],
+      firstParentList: [{}],
       addModalVisible: false,
       modalVisible: false,
       parentVisible: 'parentHidden',
@@ -141,6 +146,8 @@ export default {
               return h('div', '一')
             } else if (params.row.level === '2') {
               return h('div', '二')
+            } else if (params.row.level === '3') {
+              return h('div', '三')
             }
           }
         },
@@ -242,16 +249,30 @@ export default {
       })
     },
     getItemValue (item) {
-      this.parentVisible = 'parentShow'
       if (item === '1') {
+        this.parentVisible = 'parentHidden'
         this.secondMenuShow = 'none'
+        this.form_obj.parent = null
       }
       if (item === '2') {
-        this.parentList = [{ 'code': 23, 'name': '323' }]
+        this.parentVisible = 'parentShow'
+        this.secondMenuShow = 'none'
+        getMenuList('1', '').then(res => {
+          this.parentList = res.data.data
+        })
+      }
+      if (item === '3') {
+        this.parentVisible = 'parentShow'
+        this.parentList = []
         this.form_obj.parent = null
         this.secondMenuShow = 'inline-block'
+        getMenuList('1', '').then(res => {
+          this.firstParentList = res.data.data
+        })
       }
-      getMenuList('1', '').then(res => {
+    },
+    getChildren (item) {
+      getMenuList(2, item).then(res => {
         this.parentList = res.data.data
       })
     },
