@@ -1,6 +1,7 @@
 <template>
   <div>
     <Card>
+      <picturesadd/>
       <tables ref="tables" editable searchable search-place="top" v-model="tableData" v-bind:pageData="pageData" :columns="columns"
               @on-delete="handleDelete" v-on:listenToChildEvent="showModalAdd" v-on:updatePageDate="updatePageDate"/>
     </Card>
@@ -90,10 +91,12 @@ import Tables from '_c/tables'
 import { getPageData, getOneData, deleteData, saveData } from '@/api/data'
 import { formatTimeToStr } from '@/libs/util'
 import { getMenuList } from '@/api/common'
+import picturesadd from '@/components/pictures'
 export default {
   name: 'menus_page',
   components: {
-    Tables
+    Tables,
+    picturesadd
   },
   inject: ['reload'],
   data () {

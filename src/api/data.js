@@ -88,3 +88,14 @@ export const deleteData = (identity, id) => {
     method: 'post'
   })
 }
+export const uploadFiles = (identity, data) => {
+  return axios.request({
+    url: identity + '/upload',
+    data: data,
+    method: 'post',
+    headers: {
+      'Content-Type': 'multipart/form-data',
+      'token': ''
+    }
+  })
+}

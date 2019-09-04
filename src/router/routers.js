@@ -453,13 +453,13 @@ export default [
     component: Main,
     children: [
       {
-        path: 'roles_page',
-        name: 'roles_page',
+        path: 'pics_page',
+        name: 'pics_page',
         meta: {
           icon: 'ios-man',
-          title: '角色管理'
+          title: '图盘管理'
         },
-        component: () => import('@/view/role/roles.vue')
+        component: () => import('@/view/pics/pics.vue')
       },
       {
         path: 'users_page',
