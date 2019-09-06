@@ -3,6 +3,7 @@
       <label class="control-label">上传图片</label>
       <div class="control-form">
         <div>
+          <img :src="imgsrc"/>
           <Select @on-change="getAlbum" v-model="level" class="ivu-select selectLevel">
             <Option :value="item.code" v-for="item in albumDataList" v-bind:key="item.id">{{item.name}}</Option>
           </Select>
@@ -35,7 +36,8 @@ export default {
       }],
       imgs: {},
       imgLen: 0,
-      album: ''
+      album: '',
+      imgsrc: '../../upload/timg.jpg'
     }
   },
   methods: {
