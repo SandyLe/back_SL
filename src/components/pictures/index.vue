@@ -3,7 +3,7 @@
       <label class="control-label">上传图片</label>
       <div class="control-form">
         <div>
-          <img :src="imgsrc"/>
+          请选择图册：
           <Select @on-change="getAlbum" v-model="level" class="ivu-select selectLevel">
             <Option :value="item.code" v-for="item in albumDataList" v-bind:key="item.id">{{item.name}}</Option>
           </Select>
@@ -25,8 +25,12 @@
 
 <script>
 import { uploadFiles } from '@/api/data'
+import config from '@/config'
+const baseUrl = process.env.NODE_ENV === 'development' ? config.baseUrl.dev : config.baseUrl.pro
+
 export default {
   name: 'picturesadd',
+  inject: ['reload'],
   data () {
     return {
       formData: new FormData(),
@@ -37,7 +41,7 @@ export default {
       imgs: {},
       imgLen: 0,
       album: '',
-      imgsrc: '../../upload/timg.jpg'
+      imgsrc: ''
     }
   },
   methods: {
@@ -80,14 +84,18 @@ export default {
       for (let key in this.imgs) {
         let name = key.split('?')[0]
         this.formData.append('multipartFiles', this.imgs[key], name)
-        this.formData.append('albumCode', this.album)
       }
-      uploadFiles('pic', this.formData)
+      this.formData.append('albumCode', this.album)
+      uploadFiles('pic', this.formData).then(res => {
+        this.reload()
+      })
     },
     getAlbum (item) {
       this.album = item
     }
-
+  },
+  mounted () {
+    this.imgsrc = baseUrl + '/upload/bs04-thumbnail.jpg'
   }
 }
 </script>

@@ -10,3 +10,12 @@ export const getMenuList = (level, parent) => {
     method: 'get'
   })
 }
+
+export const getAllPics = () => {
+  return axios.request({
+    url: '/pic/getList',
+    params: {
+    },
+    method: 'get'
+  })
+}
