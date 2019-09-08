@@ -51,5 +51,7 @@ export default {
   brands_page: '企业品牌',
   brand_page: '品牌管理',
   news_page: '企业新闻',
-  pictures_page: '图片仓库'
+  pictures_page: '图片仓库',
+  pics_page: '图片管理',
+  albums_page: '相册管理'
 }

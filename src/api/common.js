@@ -19,3 +19,12 @@ export const getAllPics = () => {
     method: 'get'
   })
 }
+
+export const getAllAlbums = () => {
+  return axios.request({
+    url: '/album/getList',
+    params: {
+    },
+    method: 'get'
+  })
+}

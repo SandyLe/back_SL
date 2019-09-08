@@ -456,19 +456,19 @@ export default [
         path: 'pics_page',
         name: 'pics_page',
         meta: {
-          icon: 'ios-man',
-          title: '图盘管理'
+          icon: 'md-image',
+          title: '图片管理'
         },
         component: () => import('@/view/pics/pics.vue')
       },
       {
-        path: 'users_page',
-        name: 'users_page',
+        path: 'albums_page',
+        name: 'albums_page',
         meta: {
-          icon: 'md-clipboard',
-          title: '用户管理'
+          icon: 'md-images',
+          title: '图册管理'
         },
-        component: () => import('@/view/user/users.vue')
+        component: () => import('@/view/albums/albums.vue')
       }
     ]
   },
@@ -485,8 +485,8 @@ export default [
         path: 'roles_page',
         name: 'roles_page',
         meta: {
-          icon: 'ios-man',
-          title: '角色管理'
+          icon: 'ios-paper',
+          title: '文章管理'
         },
         component: () => import('@/view/role/roles.vue')
       },
@@ -494,8 +494,8 @@ export default [
         path: 'users_page',
         name: 'users_page',
         meta: {
-          icon: 'md-clipboard',
-          title: '用户管理'
+          icon: 'ios-copy',
+          title: '文章类型'
         },
         component: () => import('@/view/user/users.vue')
       }
@@ -514,7 +514,7 @@ export default [
         path: 'brands_page',
         name: 'brands_page',
         meta: {
-          icon: 'md-clipboard',
+          icon: 'md-map',
           title: '品牌管理'
         },
         component: () => import('@/view/brand/brands.vue')
@@ -534,7 +534,7 @@ export default [
         path: 'menus_page',
         name: 'menus_page',
         meta: {
-          icon: 'md-clipboard',
+          icon: 'md-menu',
           title: '菜单管理'
         },
         component: () => import('@/view/menu/menus.vue')
@@ -563,7 +563,7 @@ export default [
         path: 'users_page',
         name: 'users_page',
         meta: {
-          icon: 'md-clipboard',
+          icon: 'md-person',
           title: '用户管理'
         },
         component: () => import('@/view/user/users.vue')

@@ -7,9 +7,20 @@
           <div>{{data.album.name}}</div>
           <div>
             <ul class="imgGalary">
-              <li v-for="item in data.urls"  v-bind:key="item"><img :src="baseUrl + item"/> </li>
+              <li v-for="item in data.urls"  v-bind:key="item">
+                <Tooltip placement="top-start">
+                  <img :src="baseUrl + item"/>
+                  <div slot="content">
+                    <p>双击链接选中复制：</p>
+                    <p><i>{{baseUrl + item.replace('-thumbnail','')}} </i></p>
+                    <div style="float: right;"><i-button type="primary" shape="circle" size="small" v-on:click="deleteImg(item)">删除 <span style="color: red">X</span></i-button></div>
+                    <div class="clearfloat"></div>
+                  </div>
+                </Tooltip>
+              </li>
             </ul>
           </div>
+          <div class="clearfloat"></div>
         </li>
       </ul>
       <div class="clearfloat"></div>
@@ -40,6 +51,9 @@ export default {
     }
   },
   methods: {
+    deleteImg: function (item) {
+      alert(item)
+    }
   },
   mounted () {
     getAllPics().then(res => {
@@ -54,8 +68,10 @@ export default {
   .selectLevel{ width: 100px; }
   .parentHidden{ display: none}
   .parentShow{ display: inherit}
-  .galary{ height: inherit}
+  .galary{ height: inherit;}
+  .galary li{font-weight: bolder; list-style-type: none; border-top: solid #e8e8e8 1px; margin-top: 5px;}
   .imgGalary{ height: 100%}
-  .imgGalary li{ float: left; margin: 4px; list-style-type: none; border: #BFBFBF 2px dot-dot-dash}
+  .imgGalary li{ float: left; margin: 4px; list-style-type: none; border: #e8e8e8 1px solid; border-radius: 3px}
+  .imgGalary li:hover{box-shadow: #F5CBD1 1px 1px 2px 1px; border-radius: 3px}
   .clearfloat{clear:both;height:0;font-size:1px;line-height:0px;}
 </style>

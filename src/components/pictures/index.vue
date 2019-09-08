@@ -25,8 +25,7 @@
 
 <script>
 import { uploadFiles } from '@/api/data'
-import config from '@/config'
-const baseUrl = process.env.NODE_ENV === 'development' ? config.baseUrl.dev : config.baseUrl.pro
+import { getAllAlbums } from '@/api/common'
 
 export default {
   name: 'picturesadd',
@@ -40,8 +39,7 @@ export default {
       }],
       imgs: {},
       imgLen: 0,
-      album: '',
-      imgsrc: ''
+      album: ''
     }
   },
   methods: {
@@ -95,12 +93,15 @@ export default {
     }
   },
   mounted () {
-    this.imgsrc = baseUrl + '/upload/bs04-thumbnail.jpg'
+    getAllAlbums().then(res => {
+      this.albumDataList = res.data.data
+    })
   }
 }
 </script>
 
 <style scoped>
+  .help-block{color:gray}
   .upload-imgs{margin: 10px 0 30px 0;overflow: hidden;font-size: 0;}
   .upload-imgs li{position: relative;width: 118px;height: 118px;font-size: 14px;display: inline-block;padding: 10px;margin-right: 25px;border: 2px dashed #ccc;text-align: center;vertical-align: middle;}
   .upload-imgs li:hover{border-color: $them-color;}
