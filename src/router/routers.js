@@ -488,7 +488,7 @@ export default [
           icon: 'ios-paper',
           title: '文章管理'
         },
-        component: () => import('@/view/role/roles.vue')
+        component: () => import('@/view/news/news.vue')
       },
       {
         path: 'users_page',

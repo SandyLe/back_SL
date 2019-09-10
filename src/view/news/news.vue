@@ -5,7 +5,7 @@
               @on-delete="handleDelete" v-on:listenToChildEvent="showModalAdd" v-on:updatePageDate="updatePageDate"/>
       <Button style="margin: 10px 0;" type="primary" @click="exportExcel">导出为Csv文件</Button>
     </Card>
-    <Modal v-draggable="options" title="新增用户" v-model="addModalVisible" @on-ok="addData" @on-cancel="cancel"
+    <Modal v-draggable="options" fullscreen title="新增用户" v-model="addModalVisible" @on-ok="addData" @on-cancel="cancel"
            :loading='loading'>
       <Form ref="saveForm" :model="form_obj">
         <FormItem>
@@ -22,11 +22,11 @@
         </FormItem>
         <FormItem>
           <label for="desc" class="ivu-form-label-left lableFormField">描述：</label>
-          <textarea rows="3" cols="20" type="text" class="ivu-input textFormField" name="form_obj.description" v-model="form_obj.description" id="description"/>
+          <editor ref="editor" :value="content" @on-change="handleChange"/>
         </FormItem>
       </Form>
     </Modal>
-    <Modal v-draggable="options" title="编辑" v-model="modalVisible"  @on-ok="addData" @on-cancel="cancel">
+    <Modal v-draggable="options" title="编辑" fullscreen v-model="modalVisible"  @on-ok="addData" @on-cancel="cancel">
       <Form>
         <FormItem>
           <label for="name" class="ivu-form-label-left lableFormField">名称：</label>
@@ -44,12 +44,14 @@
 <script>
 import Tables from '_c/tables'
 import { getPageData, getOneData, deleteData, saveData } from '@/api/data'
+import Editor from '_c/editor'
 import { decode } from '@/api/user'
 import { formatTimeToStr } from '@/libs/util'
 export default {
   name: 'users_page',
   components: {
-    Tables
+    Tables,
+    Editor
   },
   inject: ['reload'],
   data () {
@@ -171,7 +173,14 @@ export default {
   }
 }
 </script>
-
 <style>
-
+  .editor-wrapper * {
+    z-index: 100 !important;
+  }
+  .w-e-menu{
+    z-index: 2 !important;
+  }
+  .w-e-text-container{
+    z-index: 1 !important;
+  }
 </style>
