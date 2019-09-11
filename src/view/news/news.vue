@@ -5,15 +5,15 @@
               @on-delete="handleDelete" v-on:listenToChildEvent="showModalAdd" v-on:updatePageDate="updatePageDate"/>
       <Button style="margin: 10px 0;" type="primary" @click="exportExcel">导出为Csv文件</Button>
     </Card>
-    <Modal v-draggable="options" fullscreen title="新增用户" v-model="addModalVisible" @on-ok="addData" @on-cancel="cancel"
+    <Modal v-draggable="options" fullscreen title="新增文章" v-model="addModalVisible" @on-ok="addData" @on-cancel="cancel"
            :loading='loading'>
       <Form ref="saveForm" :model="form_obj">
         <FormItem>
-          <label for="name" class="ivu-form-label-left lableFormField">名称：</label>
-          <input type="text" class="ivu-input inputFormField" name="form_obj.name" v-model="form_obj.name" id="name"/>
+          <label for="name" class="ivu-form-label-left lableFormField">标题：</label>
+          <input type="text" class="ivu-input inputFormField" name="form_obj.title" v-model="form_obj.title"/>
         </FormItem>
         <FormItem>
-          <label for="name" class="ivu-form-label-left lableFormField">密码：</label>
+          <label for="name" class="ivu-form-label-left lableFormField">文章类型：</label>
           <input type="password" class="ivu-input inputFormField" name="form_obj.password" v-model="form_obj.password"/>
         </FormItem>
         <FormItem>
