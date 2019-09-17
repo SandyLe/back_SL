@@ -48,7 +48,7 @@ import Editor from '_c/editor'
 import { decode } from '@/api/user'
 import { formatTimeToStr } from '@/libs/util'
 export default {
-  name: 'users_page',
+  name: 'news_page',
   components: {
     Tables,
     Editor
@@ -57,7 +57,7 @@ export default {
   data () {
     return {
       pageData: {
-        identity: 'user',
+        identity: 'news',
         pageSize: 10,
         currentPage: 1
       },
