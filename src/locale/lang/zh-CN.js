@@ -53,5 +53,7 @@ export default {
   news_page: '企业新闻',
   pictures_page: '图片仓库',
   pics_page: '图片管理',
-  albums_page: '相册管理'
+  albums_page: '相册管理',
+  newsManager_page: '文章管理',
+  newsType_page: '文章类型'
 }

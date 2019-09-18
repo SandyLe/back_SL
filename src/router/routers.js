@@ -482,8 +482,8 @@ export default [
     component: Main,
     children: [
       {
-        path: 'roles_page',
-        name: 'roles_page',
+        path: 'newsManager_page',
+        name: 'newsManager_page',
         meta: {
           icon: 'ios-paper',
           title: '文章管理'
@@ -491,13 +491,13 @@ export default [
         component: () => import('@/view/news/news.vue')
       },
       {
-        path: 'users_page',
-        name: 'users_page',
+        path: 'newsType_page',
+        name: 'newsType_page',
         meta: {
           icon: 'ios-copy',
           title: '文章类型'
         },
-        component: () => import('@/view/user/users.vue')
+        component: () => import('@/view/news/newsType.vue')
       }
     ]
   },

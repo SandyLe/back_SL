@@ -5,22 +5,20 @@
               @on-delete="handleDelete" v-on:listenToChildEvent="showModalAdd" v-on:updatePageDate="updatePageDate"/>
       <Button style="margin: 10px 0;" type="primary" @click="exportExcel">导出为Csv文件</Button>
     </Card>
-    <Modal v-draggable="options" fullscreen title="新增文章" v-model="addModalVisible" @on-ok="addData" @on-cancel="cancel"
+    <Modal v-draggable="options" fullscreen title="新增文章类型" v-model="addModalVisible" @on-ok="addData" @on-cancel="cancel"
            :loading='loading'>
       <Form ref="saveForm" :model="form_obj">
         <FormItem>
-          <label for="name" class="ivu-form-label-left lableFormField">标题：</label>
-          <input type="text" class="ivu-input inputFormField" name="form_obj.title" v-model="form_obj.title"/>
+          <label for="name" class="ivu-form-label-left lableFormField">名称</label>
+          <input type="text" class="ivu-input inputFormField" name="form_obj.name" v-model="form_obj.name"/>
         </FormItem>
         <FormItem>
-          <label for="name" class="ivu-form-label-left lableFormField">文章类型：</label>
-          <Select @on-change="getItemValue" v-model="form_obj.newsTypeCode" class="ivu-select selectTypeStyle">
-            <Option :value="item.code" v-for="item in newsTypeList" v-bind:key="item.id">{{item.name}}</Option>
-          </Select>
+          <label for="name" class="ivu-form-label-left lableFormField">编号：</label>
+          <input type="text" class="ivu-input inputFormField" name="form_obj.code" v-model="form_obj.code"/>
         </FormItem>
         <FormItem>
-          <label for="desc" class="ivu-form-label-left lableFormField">内容：</label>
-          <editor ref="editor" :value="content" @on-change="handleChange"/>
+          <label for="desc" class="ivu-form-label-left lableFormField">描述：</label>
+          <textarea rows="3" cols="20" type="text" class="ivu-input textFormField" name="desc"/>
         </FormItem>
       </Form>
     </Modal>
@@ -29,6 +27,10 @@
         <FormItem>
           <label for="name" class="ivu-form-label-left lableFormField">名称：</label>
           <input type="text" class="ivu-input inputFormField" name="form_obj.name" v-model="form_obj.name" id="name"/>
+        </FormItem>
+        <FormItem>
+          <label for="name" class="ivu-form-label-left lableFormField">编号：</label>
+          <input type="text" class="ivu-input inputFormField" name="form_obj.code" v-model="form_obj.code"/>
         </FormItem>
         <FormItem>
           <label for="desc" class="ivu-form-label-left lableFormField">描述：</label>
@@ -42,31 +44,28 @@
 <script>
 import Tables from '_c/tables'
 import { getPageData, getOneData, deleteData, saveData } from '@/api/data'
-import Editor from '_c/editor'
-import { decode } from '@/api/user'
 import { formatTimeToStr } from '@/libs/util'
 export default {
-  name: 'news_page',
+  name: 'newsType_page',
   components: {
-    Tables,
-    Editor
+    Tables
   },
   inject: ['reload'],
   data () {
     return {
       pageData: {
-        identity: 'news',
+        identity: 'newsType',
         pageSize: 10,
         currentPage: 1
       },
       form_obj: {
       },
-      newsTypeList: [{}],
       loading: true,
       addModalVisible: false,
       modalVisible: false,
       columns: [
-        { title: '用户名', key: 'name', sortable: true },
+        { title: '名称', key: 'name', sortable: true },
+        { title: '编号', key: 'code', sortable: true },
         { title: '备注', key: 'description', editable: true },
         { title: '创建时间',
           key: 'createDate',
@@ -90,7 +89,7 @@ export default {
                 on: {
                   'click': () => {
                     this.modalVisible = true
-                    getOneData('user', params.row.id).then(res => {
+                    getOneData('newsType', params.row.id).then(res => {
                       this.form_obj = res.data.data
                     })
                   }
@@ -104,7 +103,7 @@ export default {
                 },
                 on: {
                   'on-ok': () => {
-                    deleteData('user', params.row.id).then(res => {
+                    deleteData('newsType', params.row.id).then(res => {
                     })
                     vm.$emit('on-delete', params)
                     vm.$emit('input', params.tableData.filter((item, index) => index !== params.row.initRowIndex))
@@ -134,22 +133,8 @@ export default {
       this.addModalVisible = data
     },
     addData () {
-      var userObj = JSON.parse(JSON.stringify(this.form_obj))
-      if (!userObj.id) {
-        if (userObj.password !== userObj.confirmPassword) {
-          alert('两次输入密码不一致！')
-          this.loading = false
-          this.$nextTick(() => {
-            this.loading = true
-          })
-          return false
-        }
-      }
-      console.log(userObj.password)
-      var password = decode(userObj.password)
-      userObj.password = password
-      console.log(userObj.password)
-      saveData('user', userObj).then((res) => {
+      var newsTypeObj = JSON.parse(JSON.stringify(this.form_obj))
+      saveData('newsType', newsTypeObj).then((res) => {
         alert('操作成功')
         this.reload()
       })
@@ -173,7 +158,6 @@ export default {
 }
 </script>
 <style>
-  .selectTypeStyle{ width: 100px; }
   .editor-wrapper * {
     z-index: 100 !important;
   }
