@@ -28,3 +28,12 @@ export const getAllAlbums = () => {
     method: 'get'
   })
 }
+
+export const getNewsTypeList = () => {
+  return axios.request({
+    url: '/newsType/getList',
+    params: {
+    },
+    method: 'get'
+  })
+}

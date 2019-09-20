@@ -5,7 +5,7 @@
               @on-delete="handleDelete" v-on:listenToChildEvent="showModalAdd" v-on:updatePageDate="updatePageDate"/>
       <Button style="margin: 10px 0;" type="primary" @click="exportExcel">导出为Csv文件</Button>
     </Card>
-    <Modal v-draggable="options" fullscreen title="新增文章类型" v-model="addModalVisible" @on-ok="addData" @on-cancel="cancel"
+    <Modal v-draggable="options" title="新增文章类型" v-model="addModalVisible" @on-ok="addData" @on-cancel="cancel"
            :loading='loading'>
       <Form ref="saveForm" :model="form_obj">
         <FormItem>
@@ -22,7 +22,7 @@
         </FormItem>
       </Form>
     </Modal>
-    <Modal v-draggable="options" title="编辑" fullscreen v-model="modalVisible"  @on-ok="addData" @on-cancel="cancel">
+    <Modal v-draggable="options" title="编辑" v-model="modalVisible"  @on-ok="addData" @on-cancel="cancel">
       <Form>
         <FormItem>
           <label for="name" class="ivu-form-label-left lableFormField">名称：</label>
@@ -129,7 +129,6 @@ export default {
       })
     },
     showModalAdd (data) {
-      console.log(data)
       this.addModalVisible = data
     },
     addData () {
