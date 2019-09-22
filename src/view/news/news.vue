@@ -15,16 +15,16 @@
         <FormItem>
           <label for="name" class="ivu-form-label-left lableFormField">文章类型：</label>
           <Select @on-change="getItemValue" v-model="form_obj.newsTypeCode" class="ivu-select selectTypeStyle">
-            <Option :value="item.code" v-for="item in newsTypeList" v-bind:key="item.id">{{item.name}}</Option>
+            <Option :value="item.code" v-for="item in newsTypeList" v-bind:key="item.code">{{item.name}}</Option>
           </Select>
         </FormItem>
         <FormItem>
-          <label for="desc" class="ivu-form-label-left lableFormField">内容：</label>
-          <editor ref="editor" :value="content" @on-change="handleChange"/>
+          <div style="width:20%"><label for="desc" class="ivu-form-label-left lableFormField">内容：</label></div>
+          <div style="width:90%; float:left"><editor ref="editor" :value="form_obj.content" @on-change="handleChange" v-model="form_obj.content"/></div>
         </FormItem>
         <FormItem>
-          <label for="desc" class="ivu-form-label-left lableFormField">描述：</label>
-          <textarea rows="3" cols="20" type="text" class="ivu-input textFormField" name="form_obj.description"  v-model="form_obj.description" id="desc"/>
+          <label for="desc" class="ivu-form-label-left lableFormField">备注：</label>
+          <textarea rows="2" cols="100" type="text" class="ivu-input textFormField" name="form_obj.description"  v-model="form_obj.description" id="desc"/>
         </FormItem>
       </Form>
     </Modal>
@@ -37,12 +37,12 @@
         <FormItem>
           <label for="name" class="ivu-form-label-left lableFormField">文章类型：</label>
           <Select @on-change="getItemValue" v-model="form_obj.newsTypeCode" class="ivu-select selectTypeStyle">
-            <Option :value="item.code" v-for="item in newsTypeList" v-bind:key="item.id">{{item.name}}</Option>
+            <Option :value="item.code" v-for="item in newsTypeList" v-bind:key="item.code">{{item.name}}</Option>
           </Select>
         </FormItem>
         <FormItem>
-          <label for="desc" class="ivu-form-label-left lableFormField">内容：</label>
-          <editor ref="editor" :value="content" @on-change="handleChange"/>
+          <div style="width:20%"><label for="desc" class="ivu-form-label-left lableFormField">内容：</label></div>
+          <div style="width:90%; float:left"><editor ref="editor" :value="form_obj.content" @on-change="handleChange" v-model="form_obj.content" id="content"/></div>
         </FormItem>
         <FormItem>
           <label for="desc" class="ivu-form-label-left lableFormField">描述：</label>
@@ -81,7 +81,12 @@ export default {
       modalVisible: false,
       columns: [
         { title: '标题', key: 'name', sortable: true },
-        { title: '备注', key: 'description', editable: true },
+        { title: '文章类型',
+          key: 'newsType',
+          render: (h, params) => {
+            return h('div', params.row.newsType.name)
+          }
+        },
         { title: '创建时间',
           key: 'createDate',
           render: (h, params) => {
@@ -109,6 +114,7 @@ export default {
                     })
                     getOneData('news', params.row.id).then(res => {
                       this.form_obj = res.data.data
+                      this.$refs.editor.setHtml(this.form_obj.content)
                     })
                   }
                 }

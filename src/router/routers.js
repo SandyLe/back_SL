@@ -538,6 +538,15 @@ export default [
           title: '菜单管理'
         },
         component: () => import('@/view/menu/menus.vue')
+      },
+      {
+        path: 'menus_article_page',
+        name: 'menus_article_page',
+        meta: {
+          icon: 'md-menu',
+          title: '菜单文章'
+        },
+        component: () => import('@/view/menu/menunewstype.vue')
       }
     ]
   },

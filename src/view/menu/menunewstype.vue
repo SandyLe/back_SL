@@ -5,44 +5,32 @@
               @on-delete="handleDelete" v-on:listenToChildEvent="showModalAdd" v-on:updatePageDate="updatePageDate"/>
       <Button style="margin: 10px 0;" type="primary" @click="exportExcel">导出为Csv文件</Button>
     </Card>
-    <Modal v-draggable="options" title="新增品牌" v-model="addModalVisible" @on-ok="addData" @on-cancel="cancel"
+    <Modal v-draggable="options" title="关联文章" v-model="addModalVisible" @on-ok="addData" @on-cancel="cancel"
            :loading='loading'>
       <Form ref="saveForm" :model="form_obj">
         <FormItem>
-          <label for="name" class="ivu-form-label-left lableFormField">名称：</label>
-          <input type="text" class="ivu-input inputFormField" name="form_obj.name" v-model="form_obj.name" id="name"/>
+          <label for="name" class="ivu-form-label-left lableFormField">菜单：</label>
+          <Select v-model="form_obj.menuCode" class="ivu-select selectLevel">
+            <Option :value="item.code" v-for="item in menuList" v-bind:key="item.id">{{item.name}}</Option>
+          </Select>
         </FormItem>
         <FormItem>
-          <label for="name" class="ivu-form-label-left lableFormField">编号：</label>
-          <input type="text" class="ivu-input inputFormField" name="form_obj.code" v-model="form_obj.code"/>
-        </FormItem>
-        <FormItem>
-          <label for="name" class="ivu-form-label-left lableFormField">主图：</label>
-          <input type="text" class="ivu-input inputFormField" name="form_obj.imgUrl" v-model="form_obj.imgUrl"/>
-        </FormItem>
-        <FormItem>
-          <label for="desc" class="ivu-form-label-left lableFormField">描述：</label>
-          <textarea rows="3" cols="20" type="text" class="ivu-input textFormField" name="form_obj.description" v-model="form_obj.description" id="description"/>
+          <label for="name" class="ivu-form-label-left lableFormField">文章类型：</label>
+          <Select v-model="form_obj.newsTypeCode" class="ivu-select selectLevel">
+            <Option :value="item.code" v-for="item in newsTypeList" v-bind:key="item.id">{{item.name}}</Option>
+          </Select>
         </FormItem>
       </Form>
     </Modal>
-    <Modal v-draggable="options" title="编辑" v-model="modalVisible"  @on-ok="addData" @on-cancel="cancel">
+    <Modal v-draggable="options" title="编辑关联文章" v-model="modalVisible"  @on-ok="addData" @on-cancel="cancel">
       <Form>
         <FormItem>
-          <label for="name" class="ivu-form-label-left lableFormField">名称：</label>
+          <label for="name" class="ivu-form-label-left lableFormField">菜单：</label>
           <input type="text" class="ivu-input inputFormField" name="form_obj.name" v-model="form_obj.name" id="name"/>
         </FormItem>
         <FormItem>
-          <label for="name" class="ivu-form-label-left lableFormField">编号：</label>
+          <label for="name" class="ivu-form-label-left lableFormField">文章类型：</label>
           <input type="text" class="ivu-input inputFormField" name="form_obj.code" v-model="form_obj.code"/>
-        </FormItem>
-        <FormItem>
-          <label for="name" class="ivu-form-label-left lableFormField">主图：</label>
-          <input type="text" class="ivu-input inputFormField" name="form_obj.imgUrl" v-model="form_obj.imgUrl"/>
-        </FormItem>
-        <FormItem>
-          <label for="desc" class="ivu-form-label-left lableFormField">描述：</label>
-          <textarea rows="3" cols="20" type="text" class="ivu-input textFormField" name="form_obj.description" v-model="form_obj.description" id="description"/>
         </FormItem>
       </Form>
     </Modal>
@@ -53,8 +41,9 @@
 import Tables from '_c/tables'
 import { getPageData, getOneData, deleteData, saveData } from '@/api/data'
 import { formatTimeToStr } from '@/libs/util'
+import { getMenuList, getNewsTypeList } from '@/api/common'
 export default {
-  name: 'brands_page',
+  name: 'menuNewsType_page',
   components: {
     Tables
   },
@@ -62,20 +51,31 @@ export default {
   data () {
     return {
       pageData: {
-        identity: 'brand',
+        identity: 'menuNewsType',
         pageSize: 10,
         currentPage: 1
       },
       form_obj: {
       },
+      menuList: [],
+      newsTypeList: [],
       loading: true,
       options: true,
       addModalVisible: false,
       modalVisible: false,
       columns: [
-        { title: '名称', key: 'name', sortable: true },
-        { title: '编号', key: 'code', editable: true },
-        { title: '备注', key: 'description', editable: true },
+        { title: '菜单',
+          key: 'menu',
+          render: (h, params) => {
+            return h('div', params.row.menu.name)
+          }
+        },
+        { title: '文章类型',
+          key: 'newsType',
+          render: (h, params) => {
+            return h('div', params.row.newsType.name)
+          }
+        },
         { title: '创建时间',
           key: 'createDate',
           render: (h, params) => {
@@ -139,10 +139,16 @@ export default {
     showModalAdd (data) {
       this.form_obj = {}
       this.addModalVisible = data
+      getMenuList('', '').then(res => {
+        this.menuList = res.data.data
+      })
+      getNewsTypeList().then(res => {
+        this.newsTypeList = res.data.data
+      })
     },
     addData () {
-      var brandObj = JSON.parse(JSON.stringify(this.form_obj))
-      saveData('brand', brandObj).then((res) => {
+      var menuNewsTypeObj = JSON.parse(JSON.stringify(this.form_obj))
+      saveData('menuNewsType', menuNewsTypeObj).then((res) => {
         alert('操作成功')
         this.reload()
       })
@@ -169,4 +175,5 @@ export default {
 
 <style>
 
+  .selectLevel{ width: 100px; }
 </style>

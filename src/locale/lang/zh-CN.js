@@ -55,5 +55,6 @@ export default {
   pics_page: '图片管理',
   albums_page: '相册管理',
   newsManager_page: '文章管理',
-  newsType_page: '文章类型'
+  newsType_page: '文章类型',
+  menus_article_page: '菜单文章管理'
 }
