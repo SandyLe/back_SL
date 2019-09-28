@@ -37,3 +37,12 @@ export const getNewsTypeList = () => {
     method: 'get'
   })
 }
+
+export const getBrandListList = () => {
+  return axios.request({
+    url: '/brand/getList',
+    params: {
+    },
+    method: 'get'
+  })
+}

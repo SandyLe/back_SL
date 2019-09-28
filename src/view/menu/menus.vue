@@ -45,6 +45,10 @@
           <label for="desc" class="ivu-form-label-left lableFormField">描述：</label>
           <textarea rows="3" cols="20" type="text" class="ivu-input textFormField" name="form_obj.description" v-model="form_obj.description" id="description"/>
         </FormItem>
+        <FormItem>
+          <label for="name" class="ivu-form-label-left lableFormField">排序：</label>
+          <input type="text" class="ivu-input inputFormField input-number" name="form_obj.weight" v-model="form_obj.weight"/>
+        </FormItem>
       </Form>
     </Modal>
     <Modal v-draggable="options" title="编辑" v-model="modalVisible"  @on-ok="addData" @on-cancel="cancel">
@@ -55,7 +59,7 @@
         </FormItem>
         <FormItem>
           <label for="name" class="ivu-form-label-left lableFormField">类型：</label>
-          <RadioGroup v-model="form_obj.type">
+          <RadioGroup v-model="form_obj.type" name="form_obj.type">
             <Radio label="1">跳转菜单</Radio>
             <Radio label="0">普通菜单</Radio>
           </RadioGroup>
@@ -79,6 +83,10 @@
         <FormItem>
           <label for="desc" class="ivu-form-label-left lableFormField">描述：</label>
           <textarea rows="3" cols="20" type="text" class="ivu-input textFormField" name="form_obj.description" v-model="form_obj.description" id="description"/>
+        </FormItem>
+        <FormItem>
+          <label for="name" class="ivu-form-label-left lableFormField">排序：</label>
+          <input type="text" class="ivu-input inputFormField input-number" name="form_obj.weight" v-model="form_obj.weight"/>
         </FormItem>
       </Form>
     </Modal>
@@ -182,7 +190,7 @@ export default {
                 on: {
                   'click': () => {
                     this.modalVisible = true
-                    getOneData('user', params.row.id).then(res => {
+                    getOneData('menu', params.row.id).then(res => {
                       this.form_obj = res.data.data
                     })
                   }
@@ -292,4 +300,5 @@ export default {
   .selectLevel{ width: 100px; }
   .parentHidden{ display: none}
   .parentShow{ display: inherit}
+  .input-number{ width: 30px;}
 </style>

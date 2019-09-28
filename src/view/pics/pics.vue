@@ -12,7 +12,7 @@
                   <img :src="baseUrl + item"/>
                   <div slot="content">
                     <p>双击链接选中复制：</p>
-                    <p><i>{{baseUrl + item.replace('-thumbnail','')}} </i></p>
+                    <p><i>{{item.replace('-thumbnail','')}} </i></p>
                     <div style="float: right;"><i-button type="primary" shape="circle" size="small" v-on:click="deleteImg(item)">删除 <span style="color: red">X</span></i-button></div>
                     <div class="clearfloat"></div>
                   </div>
