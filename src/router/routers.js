@@ -523,6 +523,35 @@ export default [
   },
   {
     path: '/components',
+    name: 'product_page',
+    meta: {
+      icon: 'ios-infinite',
+      title: '产品管理'
+    },
+    component: Main,
+    children: [
+      {
+        path: 'products_page',
+        name: 'products_page',
+        meta: {
+          icon: 'md-list',
+          title: '产品管理'
+        },
+        component: () => import('@/view/product/products.vue')
+      },
+      {
+        path: 'hotProducts_page',
+        name: 'hotProducts_page',
+        meta: {
+          icon: 'md-trending-up',
+          title: '热销产品'
+        },
+        component: () => import('@/view/product/hotProducts.vue')
+      }
+    ]
+  },
+  {
+    path: '/components',
     name: 'menu_page',
     meta: {
       icon: 'md-menu',

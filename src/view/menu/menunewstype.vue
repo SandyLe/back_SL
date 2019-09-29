@@ -26,11 +26,15 @@
       <Form>
         <FormItem>
           <label for="name" class="ivu-form-label-left lableFormField">菜单：</label>
-          <input type="text" class="ivu-input inputFormField" name="form_obj.name" v-model="form_obj.name" id="name"/>
+          <Select v-model="form_obj.menuCode" class="ivu-select selectLevel">
+            <Option :value="item.code" v-for="item in menuList" v-bind:key="item.id">{{item.name}}</Option>
+          </Select>
         </FormItem>
         <FormItem>
           <label for="name" class="ivu-form-label-left lableFormField">文章类型：</label>
-          <input type="text" class="ivu-input inputFormField" name="form_obj.code" v-model="form_obj.code"/>
+          <Select v-model="form_obj.newsTypeCode" class="ivu-select selectLevel">
+            <Option :value="item.code" v-for="item in newsTypeList" v-bind:key="item.id">{{item.name}}</Option>
+          </Select>
         </FormItem>
       </Form>
     </Modal>
@@ -97,7 +101,13 @@ export default {
                 on: {
                   'click': () => {
                     this.modalVisible = true
-                    getOneData('brand', params.row.id).then(res => {
+                    getMenuList('', '').then(res => {
+                      this.menuList = res.data.data
+                    })
+                    getNewsTypeList().then(res => {
+                      this.newsTypeList = res.data.data
+                    })
+                    getOneData('menuNewsType', params.row.id).then(res => {
                       this.form_obj = res.data.data
                     })
                   }
@@ -111,7 +121,7 @@ export default {
                 },
                 on: {
                   'on-ok': () => {
-                    deleteData('brand', params.row.id).then(res => {
+                    deleteData('menuNewsType', params.row.id).then(res => {
                     })
                     vm.$emit('on-delete', params)
                     vm.$emit('input', params.tableData.filter((item, index) => index !== params.row.initRowIndex))
