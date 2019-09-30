@@ -46,3 +46,13 @@ export const getBrandListList = () => {
     method: 'get'
   })
 }
+
+export const getProductListList = (brandCode) => {
+  return axios.request({
+    url: '/product/getList',
+    params: {
+      brandCode: brandCode
+    },
+    method: 'get'
+  })
+}

@@ -17,7 +17,7 @@
         <FormItem>
           <label for="name" class="ivu-form-label-left lableFormField">产品：</label>
           <Select v-model="form_obj.productCode" class="ivu-select selectBrandStyle">
-            <Option :value="item.code" v-for="item in brandList" v-bind:key="item.code">{{item.name}}</Option>
+            <Option :value="item.code" v-for="item in productList" v-bind:key="item.code">{{item.name}}</Option>
           </Select>
         </FormItem>
         <FormItem>
@@ -41,7 +41,7 @@
         <FormItem>
           <label for="name" class="ivu-form-label-left lableFormField">产品：</label>
           <Select v-model="form_obj.productCode" class="ivu-select selectBrandStyle">
-            <Option :value="item.code" v-for="item in brandList" v-bind:key="item.code">{{item.name}}</Option>
+            <Option :value="item.code" v-for="item in productList" v-bind:key="item.code">{{item.name}}</Option>
           </Select>
         </FormItem>
         <FormItem>
@@ -61,7 +61,7 @@
 import Tables from '_c/tables'
 import { getPageData, getOneData, deleteData, saveData } from '@/api/data'
 import { formatTimeToStr } from '@/libs/util'
-import { getBrandListList } from '@/api/common.js'
+import { getBrandListList, getProductListList } from '@/api/common.js'
 export default {
   name: 'hotProducts_page',
   components: {
@@ -78,17 +78,28 @@ export default {
       form_obj: {
       },
       brandList: [],
+      productList: [],
       loading: true,
       options: true,
       addModalVisible: false,
       modalVisible: false,
       columns: [
-        { title: '名称', key: 'name', sortable: true },
-        { title: '编号', key: 'code', editable: true },
-        { title: '品牌',
-          key: 'brand',
+        { title: '名称',
+          key: 'name',
           render: (h, params) => {
-            return h('div', params.row.brand.name)
+            return h('div', params.row.product.name)
+          }
+        },
+        { title: '编号',
+          key: 'code',
+          render: (h, params) => {
+            return h('div', params.row.product.code)
+          }
+        },
+        { title: '品牌',
+          key: 'product',
+          render: (h, params) => {
+            return h('div', params.row.product.brand.name)
           }
         },
         { title: '备注', key: 'description', editable: true },
@@ -178,12 +189,9 @@ export default {
       })
     },
     getItemValue (item) {
-      console.log(item)
-      if (item === '1') {
-        this.parentVisible = 'parentHidden'
-        this.secondMenuShow = 'none'
-        this.form_obj.parent = null
-      }
+      getProductListList(item).then(res => {
+        this.productList = res.data.data
+      })
     },
     cancel () {}
   },
