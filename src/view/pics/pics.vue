@@ -9,7 +9,7 @@
             <ul class="imgGalary">
               <li v-for="item in data.urls"  v-bind:key="item">
                 <Tooltip placement="top-start">
-                  <img :src="baseUrl + item"/>
+                  <img :src="item"/>
                   <div slot="content">
                     <p>双击链接选中复制：</p>
                     <p><i>{{item.replace('-thumbnail','')}} </i></p>
