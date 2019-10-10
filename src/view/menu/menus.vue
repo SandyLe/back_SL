@@ -18,8 +18,8 @@
         <FormItem>
           <label for="name" class="ivu-form-label-left lableFormField">类型：</label>
           <RadioGroup v-model="form_obj.type">
-            <Radio label="1">跳转菜单</Radio>
-            <Radio label="0">普通菜单</Radio>
+            <Radio :label="1">跳转菜单</Radio>
+            <Radio :label="0">普通菜单</Radio>
           </RadioGroup>
         </FormItem>
         <FormItem>
@@ -60,8 +60,8 @@
         <FormItem>
           <label for="name" class="ivu-form-label-left lableFormField">类型：</label>
           <RadioGroup v-model="form_obj.type" name="form_obj.type">
-            <Radio label="1">跳转菜单</Radio>
-            <Radio label="0">普通菜单</Radio>
+            <Radio :label="1">跳转菜单</Radio>
+            <Radio :label="0">普通菜单</Radio>
           </RadioGroup>
         </FormItem>
         <FormItem>

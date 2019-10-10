@@ -1,5 +1,5 @@
 import Main from '@/components/main'
-import parentView from '@/components/parent-view'
+// import parentView from '@/components/parent-view'
 
 /**
  * iview-admin中meta除了原生参数外可配置的参数:
@@ -70,7 +70,7 @@ export default [
       icon: 'ios-book'
     }
   },
-  {
+  /*  {
     path: '/join',
     name: 'join',
     component: Main,
@@ -442,7 +442,7 @@ export default [
         component: () => import('@/view/multilevel/level-2-3.vue')
       }
     ]
-  },
+  }, */
   {
     path: '/components',
     name: 'pictures_page',
