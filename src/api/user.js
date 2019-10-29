@@ -33,7 +33,7 @@ export const decode = (pass) => {
 
 export const getUserInfo = (token) => {
   return axios.request({
-    url: '/demo/api/getUserInfo',
+    url: '/getUserInfo',
     params: {
       token
     },
