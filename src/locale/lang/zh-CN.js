@@ -56,5 +56,8 @@ export default {
   albums_page: '相册管理',
   newsManager_page: '文章管理',
   newsType_page: '文章类型',
-  menus_article_page: '菜单文章管理'
+  menus_article_page: '菜单文章管理',
+  product_page: '产品列表',
+  products_page: '产品管理',
+  hotProducts_page: '热销产品'
 }
