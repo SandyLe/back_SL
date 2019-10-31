@@ -34,7 +34,7 @@
       <Form>
         <FormItem>
           <label for="name" class="ivu-form-label-left lableFormField">产品品牌：</label>
-          <Select v-model="form_obj.brandCode" class="ivu-select selectBrandStyle">
+          <Select v-model="form_obj.brandCode" @on-change="getItemValue" class="ivu-select selectBrandStyle">
             <Option :value="item.code" v-for="item in brandList" v-bind:key="item.code">{{item.name}}</Option>
           </Select>
         </FormItem>
@@ -129,6 +129,11 @@ export default {
                     })
                     getOneData('hotProduct', params.row.id).then(res => {
                       this.form_obj = res.data.data
+                      console.log(this.form_obj)
+                      this.form_obj.brandCode = this.form_obj.product.brandCode
+                      getProductListList(this.form_obj.brandCode).then(res => {
+                        this.productList = res.data.data
+                      })
                     })
                   }
                 }

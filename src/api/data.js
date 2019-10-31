@@ -55,6 +55,16 @@ export const uploadImg = formData => {
   })
 }
 
+export const deleteImg = id => {
+  return axios.request({
+    url: '/pic/delete',
+    params: {
+      id: id
+    },
+    method: 'post'
+  })
+}
+
 export const getOrgData = () => {
   return axios.request({
     url: 'get_org_data',

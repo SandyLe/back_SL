@@ -32,6 +32,7 @@
 import picturesadd from '@/components/pictures'
 import config from '@/config'
 import { getAllPics } from '@/api/common'
+import { deleteImg } from '@/api/data'
 const baseUrl = process.env.NODE_ENV === 'development' ? config.baseUrl.dev : config.baseUrl.pro
 
 export default {
@@ -52,7 +53,8 @@ export default {
   },
   methods: {
     deleteImg: function (item) {
-      alert(item)
+      deleteImg(item)
+      this.reload()
     }
   },
   mounted () {

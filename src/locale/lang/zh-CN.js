@@ -59,5 +59,6 @@ export default {
   menus_article_page: '菜单文章管理',
   product_page: '产品列表',
   products_page: '产品管理',
-  hotProducts_page: '热销产品'
+  hotProducts_page: '热销产品',
+  frontHome: '前台'
 }

@@ -1,6 +1,7 @@
 <template>
   <div class="side-menu-wrapper">
-    <slot></slot>
+    <img src="../../../../assets/images/wjlogo.jpg" width="50px"/>
+    <span style="font-family: Farah; font-weight: bolder; font-size: x-large">文疆商贸官网后台</span>
     <Menu ref="menu" v-show="!collapsed" :active-name="activeName" :open-names="openedNames" :accordion="accordion" :theme="theme" width="auto" @on-select="handleSelect">
       <template v-for="item in menuList">
         <template v-if="item.children && item.children.length === 1">
