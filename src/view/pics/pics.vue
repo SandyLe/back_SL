@@ -4,7 +4,7 @@
       <picturesadd/>
       <ul class="galary">
         <li v-for="data in imgDatas"  v-bind:key="data.album.code">
-          <div>{{data.album.name}}</div>
+          <div>{{data.album.name}}({{data.album.description}})</div>
           <div>
             <ul class="imgGalary">
               <li v-for="item in data.pics"  v-bind:key="item">
