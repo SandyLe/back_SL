@@ -545,7 +545,7 @@ export default [
           icon: 'md-map',
           title: '品牌管理'
         },
-        component: () => import('@/view/brand/brands.vue')
+        component: () => import('@/view/brand/brand.vue')
       }
     ]
   },

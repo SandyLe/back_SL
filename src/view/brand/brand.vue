@@ -50,121 +50,121 @@
 </template>
 
 <script>
-import Tables from '_c/tables'
-import { getPageData, getOneData, deleteData, saveData } from '@/api/data'
-import { formatTimeToStr } from '@/libs/util'
-export default {
-  name: 'brands_page',
-  components: {
-    Tables
-  },
-  inject: ['reload'],
-  data () {
-    return {
-      pageData: {
-        identity: 'brand',
-        pageSize: 10,
-        currentPage: 1
-      },
-      form_obj: {
-      },
-      loading: true,
-      options: true,
-      addModalVisible: false,
-      modalVisible: false,
-      columns: [
-        { title: '名称', key: 'name', sortable: true },
-        { title: '编号', key: 'code', editable: true },
-        { title: '备注', key: 'description', editable: true },
-        { title: '创建时间',
-          key: 'createDate',
-          render: (h, params) => {
+  import Tables from '_c/tables'
+  import { getPageData, getOneData, deleteData, saveData } from '@/api/data'
+  import { formatTimeToStr } from '@/libs/util'
+  export default {
+    name: 'brands_page',
+    components: {
+      Tables
+    },
+    inject: ['reload'],
+    data () {
+      return {
+        pageData: {
+          identity: 'brand',
+          pageSize: 10,
+          currentPage: 1
+        },
+        form_obj: {
+        },
+        loading: true,
+        options: true,
+        addModalVisible: false,
+        modalVisible: false,
+        columns: [
+          { title: '名称', key: 'name', sortable: true },
+          { title: '编号', key: 'code', editable: true },
+          { title: '备注', key: 'description', editable: true },
+          { title: '创建时间',
+            key: 'createDate',
+            render: (h, params) => {
             return h('div', formatTimeToStr(new Date(params.row.createDate), 'yyyy-MM-dd hh:mm'))
           }
-        },
-        { title: '更新时间',
-          key: 'updateDate',
-          render: (h, params) => {
-            return h('div', formatTimeToStr(new Date(params.row.updateDate), 'yyyy-MM-dd hh:mm'))
-          }
-        },
-        {
-          title: 'Handle',
+      },
+      { title: '更新时间',
+        key: 'updateDate',
+        render: (h, params) => {
+        return h('div', formatTimeToStr(new Date(params.row.updateDate), 'yyyy-MM-dd hh:mm'))
+      }
+    },
+      {
+        title: 'Handle',
           key: 'handle',
-          button: [
-            (h, params, vm) => {
-              return h('Button', {
-                on: {
-                  'click': () => {
-                    this.modalVisible = true
-                    getOneData('brand', params.row.id).then(res => {
-                      this.form_obj = res.data.data
-                    })
-                  }
-                }
-              }, '编辑')
-            }, (h, params, vm) => {
-              return h('Poptip', {
-                props: {
-                  confirm: true,
-                  title: '你确定要删除吗?'
-                },
-                on: {
-                  'on-ok': () => {
-                    deleteData('brand', params.row.id).then(res => {
-                    })
-                    vm.$emit('on-delete', params)
-                    vm.$emit('input', params.tableData.filter((item, index) => index !== params.row.initRowIndex))
-                  }
-                }
-              }, [
-                h('Button', '删除')
-              ])
-            }
-          ]
-        }
-      ],
+        button: [
+        (h, params, vm) => {
+        return h('Button', {
+          on: {
+            'click': () => {
+            this.modalVisible = true
+          getOneData('brand', params.row.id).then(res => {
+          this.form_obj = res.data.data
+      })
+      }
+      }
+      }, '编辑')
+      }, (h, params, vm) => {
+        return h('Poptip', {
+          props: {
+            confirm: true,
+            title: '你确定要删除吗?'
+          },
+          on: {
+            'on-ok': () => {
+            deleteData('brand', params.row.id).then(res => {
+        })
+        vm.$emit('on-delete', params)
+        vm.$emit('input', params.tableData.filter((item, index) => index !== params.row.initRowIndex))
+      }
+      }
+      }, [
+          h('Button', '删除')
+        ])
+      }
+      ]
+      }
+    ],
       tableData: []
     }
-  },
-  methods: {
-    handleDelete (params) {
-      console.log(params)
     },
-    exportExcel () {
-      this.$refs.tables.exportCsv({
-        filename: `table-${(new Date()).valueOf()}.csv`
-      })
-    },
-    showModalAdd (data) {
-      this.form_obj = {}
-      this.addModalVisible = data
-    },
-    addData () {
-      var brandObj = JSON.parse(JSON.stringify(this.form_obj))
-      saveData('brand', brandObj).then((res) => {
-        alert('操作成功')
+    methods: {
+      handleDelete (params) {
+        console.log(params)
+      },
+      exportExcel () {
+        this.$refs.tables.exportCsv({
+          filename: `table-${(new Date()).valueOf()}.csv`
+        })
+      },
+      showModalAdd (data) {
+        this.form_obj = {}
+        this.addModalVisible = data
+      },
+      addData () {
+        var brandObj = JSON.parse(JSON.stringify(this.form_obj))
+        saveData('brand', brandObj).then((res) => {
+          alert('操作成功')
         this.reload()
       })
-    },
-    updatePageDate (pageData) {
-      this.pageData = pageData
-      getPageData(this.pageData).then(res => {
-        this.tableData = res.data.data.data
+      },
+      updatePageDate (pageData) {
+        this.pageData = pageData
+        getPageData(this.pageData).then(res => {
+          this.tableData = res.data.data.data
         delete res.data.data.data
         this.pageData = res.data.data
       })
+      },
+      cancel () {}
     },
-    cancel () {}
-  },
-  mounted () {
-    getPageData(this.pageData).then(res => {
-      this.tableData = res.data.data.data
+    mounted () {
+      getPageData(this.pageData).then(res => {
+        this.tableData = res.data.data.data
       delete res.data.data.data
       this.pageData = res.data.data
     })
+    }
   }
-}
 </script>
 
 <style>
