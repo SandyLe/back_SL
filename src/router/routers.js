@@ -511,6 +511,26 @@ export default [
   },
   {
     path: '/components',
+    name: 'productType_page',
+    meta: {
+      icon: 'md-funnel',
+      title: '产品类型'
+    },
+    component: Main,
+    children: [
+      {
+        path: 'productType_page',
+        name: 'productType_page',
+        meta: {
+          icon: 'md-funnel',
+          title: '产品类型'
+        },
+        component: () => import('@/view/product/productType.vue')
+      }
+    ]
+  },
+  {
+    path: '/components',
     name: 'brand_page',
     meta: {
       icon: 'logo-buffer',

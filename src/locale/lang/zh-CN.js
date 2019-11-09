@@ -60,5 +60,6 @@ export default {
   product_page: '产品列表',
   products_page: '产品管理',
   hotProducts_page: '热销产品',
-  frontHome: '前台'
+  frontHome: '前台',
+  productType_page: '产品类型'
 }
