@@ -56,3 +56,10 @@ export const getProductListList = (brandCode) => {
     method: 'get'
   })
 }
+
+export const getProductTypeList = () => {
+  return axios.request({
+    url: '/productType/getList',
+    method: 'get'
+  })
+}
