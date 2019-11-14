@@ -31,6 +31,10 @@
           <textarea rows="3" cols="20" type="text" class="ivu-input textFormField" name="form_obj.imgs" v-model="form_obj.imgs" id="imgs"/>
         </FormItem>
         <FormItem>
+          <label for="name" class="ivu-form-label-left lableFormField">品牌介绍：</label>
+          <input type="text" class="ivu-input inputFormField" name="form_obj.introduction" v-model="form_obj.introduction"/>
+        </FormItem>
+        <FormItem>
           <label for="desc" class="ivu-form-label-left lableFormField">描述：</label>
           <textarea rows="3" cols="20" type="text" class="ivu-input textFormField" name="form_obj.description" v-model="form_obj.description" id="description"/>
         </FormItem>
@@ -59,6 +63,10 @@
         <FormItem>
           <label class="ivu-form-label-left lableFormField">品牌轮播图（*分号隔开）</label>
           <textarea rows="3" cols="20" type="text" class="ivu-input textFormField" name="form_obj.imgs" v-model="form_obj.imgs" id="imgs"/>
+        </FormItem>
+        <FormItem>
+          <label for="name" class="ivu-form-label-left lableFormField">品牌介绍：</label>
+          <input type="text" class="ivu-input inputFormField" name="form_obj.introduction" v-model="form_obj.introduction"/>
         </FormItem>
         <FormItem>
           <label for="desc" class="ivu-form-label-left lableFormField">描述：</label>
