@@ -61,5 +61,6 @@ export default {
   products_page: '产品管理',
   hotProducts_page: '热销产品',
   frontHome: '前台',
-  productType_page: '产品类型'
+  productType_page: '产品类型',
+  indexconfig_page: '首页配置'
 }

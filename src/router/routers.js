@@ -637,6 +637,26 @@ export default [
     ]
   },
   {
+    path: '/components',
+    name: 'indexconfig_page',
+    meta: {
+      icon: 'logo-buffer',
+      title: '首页配置'
+    },
+    component: Main,
+    children: [
+      {
+        path: 'indexconfig_page',
+        name: 'indexconfig_page',
+        meta: {
+          icon: 'md-map',
+          title: '首页配置'
+        },
+        component: () => import('@/view/indexconfig/indexconfig.vue')
+      }
+    ]
+  },
+  {
     path: '/argu',
     name: 'argu',
     meta: {
